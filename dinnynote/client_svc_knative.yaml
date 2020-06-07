@@ -1,19 +1,21 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
+  labels:
+    app: client
   name: client
   namespace: default
 spec:
+        #externalTrafficPolicy: Cluster
   template:
     spec:
       containers:
       - image: docker.io/pontep/client
-      #  externalTrafficPolicy: Cluster
-      #containerPorts:
-      #  - port: 8080
-      #    protocol: TCP
-      #    targetPort: 8080
-      #  selector:
-      #    app: client
-      #  sessionAffinity: None
-      #  type: LoadBalancer 
+        #ports:
+        #- port: 8080
+        #protocol: TCP
+        #targetPort: 8080
+        #selector:
+        #app: client
+        #sessionAffinity: None 
+        #type: LoadBalancer 

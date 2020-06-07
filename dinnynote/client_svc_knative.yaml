@@ -10,7 +10,6 @@ spec:
     spec:
       containers:
       - image: docker.io/pontep/client
-      externalTrafficPolicy: Cluster
       ports:
       - port: 8080
         protocol: TCP

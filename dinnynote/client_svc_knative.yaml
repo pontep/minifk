@@ -10,7 +10,7 @@ spec:
   template:
     spec:
       containers:
-      - image: docker.io/pontep/client
+        - image: docker.io/pontep/client:v2
         #ports:
         #- port: 8080
         #protocol: TCP

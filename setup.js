@@ -46,7 +46,7 @@ const footloose = config => ({
       ignite: {
         cpus: 2,
         memory: '4GB',
-        diskSize: '5GB',
+        diskSize: '10GB',
         kernel: 'chanwit/ignite-kernel:4.19.47',
       },
       portMappings: [{
@@ -75,7 +75,7 @@ const footloose = config => ({
       ignite: {
         cpus: 2,
         memory: '4GB',
-        diskSize: '5GB',
+        diskSize: '10GB',
         kernel: 'chanwit/ignite-kernel:4.19.47',
       },
       portMappings: [{

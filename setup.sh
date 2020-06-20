@@ -21,7 +21,7 @@ set -euo pipefail
 
 JK_VERSION=0.3.0
 FOOTLOOSE_VERSION=0.6.3
-IGNITE_VERSION=0.7.0
+IGNITE_VERSION=0.5.5
 WKSCTL_VERSION=0.8.1
 
 config_backend() {
@@ -172,5 +172,5 @@ apply_args=(
   "--git-branch=$(git_current_branch)"
 )
 [ "${git_deploy_key}" ] && apply_args+=("${git_deploy_key}")
-echo "wksctl apply "${apply_args[@]}""
-echo "wksctl kubeconfig"
+wksctl apply "${apply_args[@]}"
+wksctl kubeconfig

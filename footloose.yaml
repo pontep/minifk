@@ -4,7 +4,7 @@ cluster:
 machines:
 - count: 1
   spec:
-    backend: ignite
+    backend: docker
     ignite:
       cpus: 2
       diskSize: 10GB
@@ -21,12 +21,14 @@ machines:
       hostPort: 30443
     - containerPort: 30080
       hostPort: 30080
-    privileged: false
+    privileged: true
     volumes:
-    - source: minifk-0
+    - destination: /var/lib/docker
+      source: minifk-0
+      type: volume
 - count: 1
   spec:
-    backend: ignite
+    backend: docker
     ignite:
       cpus: 2
       diskSize: 10GB
@@ -43,6 +45,8 @@ machines:
       hostPort: 30443
     - containerPort: 30080
       hostPort: 30080
-    privileged: false
+    privileged: true
     volumes:
-    - source: minifk-1
+    - destination: /var/lib/docker
+      source: minifk-1
+      type: volume

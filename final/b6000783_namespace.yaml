@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2020-06-21T08:06:56Z"
+  name: b6000783
+  resourceVersion: "1564"
+  selfLink: /api/v1/namespaces/b6000783
+  uid: 5437fc3f-82b9-432b-ba89-4f593d6cb4d1
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

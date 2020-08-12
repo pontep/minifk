@@ -1,7 +1,7 @@
 import { Construct, Node } from 'constructs';
 import { Deployment, Service, IntOrString } from '../imports/k8s';
 
-export interface WebServiceOptions {
+export interface MicroServiceOptions {
   /**
    * The Docker image to use for this service.
    */
@@ -27,12 +27,11 @@ export interface WebServiceOptions {
    * @default 8080
    */
   readonly containerPort?: number;
-
   readonly loadBalancerIP?: string;
 }
 
-export class WebService extends Construct {
-  constructor(scope: Construct, ns: string, options: WebServiceOptions) {
+export class MicroService extends Construct {
+  constructor(scope: Construct, ns: string, options: MicroServiceOptions) {
     super(scope, ns);
 
     const port = options.port || 80;
@@ -40,7 +39,6 @@ export class WebService extends Construct {
     const label = { app: Node.of(this).uniqueId };
     const replicas = options.replicas ?? 1;
     const loadBalancerIP = options.loadBalancerIP || '';
-
     new Service(this, 'service', {
       spec: {
         type: 'LoadBalancer',

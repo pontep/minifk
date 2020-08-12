@@ -25,8 +25,17 @@ jobs:
     
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.3
-      
-    - name: Automate synth cdk8s to yaml
+    
+    - name: Installing node dependencies
       run: |
         cd cdk
-        npm run synth
+        npm install
+    
+    - name: Compiling
+      run: npm run compile
+    
+    - name: Testing
+      run: npm run test
+      
+    - name: Synthing
+      run: npm run synth

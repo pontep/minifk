@@ -29,16 +29,19 @@ jobs:
     - name: Installing node dependencies
       run: |
         cd cdk
-        pwd
         npm install
     
     - name: Compiling
       run: |
-        pwd
+        cd cdk
         npm run compile
     
     - name: Testing
-      run: npm run test
+      run: |
+        cd cdk
+        npm run test
       
     - name: Synthing
-      run: npm run synth
+      run: |
+        cd cdk
+        npm run synth

@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dinnynote-frontend-service-357d7206
+spec:
+  loadBalancerIP: 172.17.0.208
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: dinnynotefrontend168DD9CC
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dinnynote-frontend-deployment-f206935d
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dinnynotefrontend168DD9CC
+  template:
+    metadata:
+      labels:
+        app: dinnynotefrontend168DD9CC
+    spec:
+      containers:
+        - image: pontep/client
+          name: app
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dinnynote-backend-service-a5eb7fdd
+spec:
+  loadBalancerIP: 172.17.0.209
+  ports:
+    - port: 9000
+      targetPort: 9000
+  selector:
+    app: dinnynotebackendF58871E2
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dinnynote-backend-deployment-b7946849
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dinnynotebackendF58871E2
+  template:
+    metadata:
+      labels:
+        app: dinnynotebackendF58871E2
+    spec:
+      containers:
+        - image: pontep/backend
+          name: app
+          ports:
+            - containerPort: 9000

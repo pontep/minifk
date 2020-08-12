@@ -45,3 +45,17 @@ jobs:
       run: |
         cd cdk
         npm run synth
+    
+    - name: Commit files # commit the output folder
+      run: |
+        cd cdk/dist
+        git config --local user.email "pontep.taveeshup@gmail.com"
+        git config --local user.name "pontep"
+        git add .
+        git commit -m "Add changes"
+        
+    - name: Push changes # push the output folder to your repo
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true

@@ -16,7 +16,7 @@ kind: Deployment
 metadata:
   name: dinnynote-client-deployment-3a5d740d
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: dinnynoteclient11F4D609

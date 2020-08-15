@@ -55,4 +55,5 @@ jobs:
         git commit -m "Add changes"
         
     - name: Create Pull Request
+      if: ${{ success() }}
       uses: peter-evans/create-pull-request@v3.1.0 

@@ -1,29 +1,29 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dinnynote-new-client2-service-4cc9b9f4
+  name: dinnynote-front-service-030b930e
 spec:
   loadBalancerIP: 172.17.0.208
   ports:
     - port: 80
       targetPort: 8080
   selector:
-    app: dinnynotenewclient2784E61C2
+    app: dinnynotefront50DD6F74
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dinnynote-new-client2-deployment-0f81f672
+  name: dinnynote-front-deployment-8d37673b
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dinnynotenewclient2784E61C2
+      app: dinnynotefront50DD6F74
   template:
     metadata:
       labels:
-        app: dinnynotenewclient2784E61C2
+        app: dinnynotefront50DD6F74
     spec:
       containers:
         - image: pontep/client
@@ -34,29 +34,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dinnynote-new-backend2-service-1e2535fd
+  name: dinnynote-back-service-6ce1c25e
 spec:
   loadBalancerIP: 172.17.0.209
   ports:
     - port: 9000
       targetPort: 9000
   selector:
-    app: dinnynotenewbackend27A871CDD
+    app: dinnynotebackE67426A3
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dinnynote-new-backend2-deployment-01586766
+  name: dinnynote-back-deployment-1f9e0d3e
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dinnynotenewbackend27A871CDD
+      app: dinnynotebackE67426A3
   template:
     metadata:
       labels:
-        app: dinnynotenewbackend27A871CDD
+        app: dinnynotebackE67426A3
     spec:
       containers:
         - image: pontep/backend

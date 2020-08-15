@@ -54,8 +54,5 @@ jobs:
         git add .
         git commit -m "Add changes"
         
-    - name: Push changes # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        force: true
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3.1.0 

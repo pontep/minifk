@@ -45,14 +45,6 @@ jobs:
       run: |
         cd cdk
         npm run synth
-    
-    - name: Commit files # commit the output folder
-      run: |
-        cd cdk/dist
-        git config --local user.email "pontep.taveeshup@gmail.com"
-        git config --local user.name "pontep"
-        git add .
-        git commit -m "Add changes"
         
     - name: Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v4.4.0

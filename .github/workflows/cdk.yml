@@ -54,6 +54,8 @@ jobs:
         git add .
         git commit -m "Add changes"
         
-    - name: Create Pull Request
-      if: ${{ success() }}
-      uses: peter-evans/create-pull-request@v3.1.0 
+    - name: Git Auto Commit
+      uses: stefanzweifel/git-auto-commit-action@v4.4.0
+      with:
+        # Commit message
+        commit_message: Auto commit

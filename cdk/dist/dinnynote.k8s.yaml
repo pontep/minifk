@@ -16,7 +16,7 @@ kind: Deployment
 metadata:
   name: dinnynote-front-deployment-8d37673b
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: dinnynotefront50DD6F74

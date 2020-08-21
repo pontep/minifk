@@ -46,8 +46,12 @@ jobs:
         cd cdk
         npm run synth
         
-    - name: Git Auto Commit
-      uses: stefanzweifel/git-auto-commit-action@v4.4.0
-      with:
+    - name: Create Pull Request
+      if: ${{ success() }}
+      uses: peter-evans/create-pull-request@v3.1.0 
+        
+    #- name: Git Auto Commit
+    #  uses: stefanzweifel/git-auto-commit-action@v4.4.0
+        # with:
         # Commit message
-        commit_message: Auto commit
+        #commit_message: Auto commit

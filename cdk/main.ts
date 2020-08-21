@@ -9,7 +9,7 @@ export class MyChart extends Chart {
     super(scope, ns);
 
     // DinnyNote Front-end
-    new WebService(this, 'front', { image: 'pontep/client', replicas: 3, loadBalancerIP: '172.17.0.208' });
+    new WebService(this, 'front', { image: 'pontep/client', replicas: 5, loadBalancerIP: '172.17.0.208' });
 
     // DinnyNote Back-end
     new MicroService(this, 'back', { image: 'pontep/backend', port: 9000, containerPort: 9000, loadBalancerIP: '172.17.0.209'});

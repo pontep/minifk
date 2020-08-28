@@ -20,7 +20,6 @@ export class MyChart extends Chart {
       metadata: {
         labels: {
           app: pod_label,
-          details: "This pod is creating manual.",
           creator: "paulbouwer",
           environment: "test",
           week: "4",

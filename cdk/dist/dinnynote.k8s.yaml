@@ -4,7 +4,6 @@ metadata:
   labels:
     app: hellomanual
     creator: paulbouwer
-    details: This pod is creating manual.
     environment: test
     reference: chanwit
     week: "4"

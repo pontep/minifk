@@ -1,9 +1,6 @@
 import { Construct } from "constructs";
 import { App, Chart } from "cdk8s";
-// import { WebService } from "./lib/web-service";
-// import { MicroService } from "./lib/micro-service";
-import { Service, Deployment, Pod } from "./imports/k8s";
-// import { Deployment, Service, IntOrString } from './imports/k8s';
+import { Service, Deployment, Pod, Namespace } from "./imports/k8s";
 
 export class MyChart extends Chart {
   constructor(scope: Construct, ns: string) {
@@ -12,12 +9,18 @@ export class MyChart extends Chart {
     // Defining
     const app_name = "hello-k8s"
 
+    // Namespace
+    const namespace = "pontep"
+    new Namespace(this, namespace, {
+    })
+
     // Pod
     const pod_image = "paulbouwer/hello-kubernetes:1.8";
     const pod_label = "hellomanual";
 
     new Pod(this, pod_label, {
       metadata: {
+        namespace: namespace,
         labels: {
           app: pod_label,
           creator: "paulbouwer",
@@ -99,6 +102,8 @@ export class MyChart extends Chart {
         }
       }
     })
+
+
   }
 }
 

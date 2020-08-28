@@ -1,65 +1,17 @@
 apiVersion: v1
-kind: Service
+kind: Pod
 metadata:
-  name: dinnynote-front-service-030b930e
+  labels:
+    app: hello
+    creator: paulbouwer
+    environment: test
+    reference: chanwit
+    week: "4"
+  name: hello
+  namespace: b6000783
 spec:
-  loadBalancerIP: 172.17.0.208
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    app: dinnynotefront50DD6F74
-  type: LoadBalancer
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dinnynote-front-deployment-8d37673b
-spec:
-  replicas: 5
-  selector:
-    matchLabels:
-      app: dinnynotefront50DD6F74
-  template:
-    metadata:
-      labels:
-        app: dinnynotefront50DD6F74
-    spec:
-      containers:
-        - image: pontep/client
-          name: app
-          ports:
-            - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dinnynote-back-service-6ce1c25e
-spec:
-  loadBalancerIP: 172.17.0.209
-  ports:
-    - port: 9000
-      targetPort: 9000
-  selector:
-    app: dinnynotebackE67426A3
-  type: LoadBalancer
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dinnynote-back-deployment-1f9e0d3e
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: dinnynotebackE67426A3
-  template:
-    metadata:
-      labels:
-        app: dinnynotebackE67426A3
-    spec:
-      containers:
-        - image: pontep/backend
-          name: app
-          ports:
-            - containerPort: 9000
+  containers:
+    - image: paulbouwer/hello-kubernetes:1.8
+      name: hello
+      ports:
+        - containerPort: 80

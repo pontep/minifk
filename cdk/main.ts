@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { App, Chart } from "cdk8s";
 // import { WebService } from "./lib/web-service";
 // import { MicroService } from "./lib/micro-service";
-import { Service, Deployment } from "./imports/k8s";
+import { Service, Deployment, Pod } from "./imports/k8s";
 // import { Deployment, Service, IntOrString } from './imports/k8s';
 
 export class MyChart extends Chart {
@@ -13,34 +13,35 @@ export class MyChart extends Chart {
     const app_name = "hello-k8s"
 
     // Pod
-    // const pod_image = "paulbouwer/hello-kubernetes:1.8";
-    // const pod_label = "hello";
+    const pod_image = "paulbouwer/hello-kubernetes:1.8";
+    const pod_label = "hellomanual";
 
-    // new Pod(this, pod_label, {
-    //   metadata: {
-    //     labels: {
-    //       app: pod_label,
-    //       creator: "paulbouwer",
-    //       environment: "test",
-    //       week: "4",
-    //       reference: "chanwit",
-    //     },
-    //     name: pod_label,
-    //   },
-    //   spec: {
-    //     containers: [
-    //       {
-    //         name: pod_label,
-    //         image: pod_image,
-    //         ports: [
-    //           {
-    //             containerPort: 80,
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // });
+    new Pod(this, pod_label, {
+      metadata: {
+        labels: {
+          app: pod_label,
+          details: "This pod is creating manual.",
+          creator: "paulbouwer",
+          environment: "test",
+          week: "4",
+          reference: "chanwit",
+        },
+        name: pod_label,
+      },
+      spec: {
+        containers: [
+          {
+            name: pod_label,
+            image: pod_image,
+            ports: [
+              {
+                containerPort: 8080,
+              },
+            ],
+          },
+        ],
+      },
+    });
 
     // Deployment
     const deploy_name = "hellodeployment"

@@ -1,8 +1,13 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: dinnynote-pontep-3a9631cb
+---
+apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: hellomanual
+    app: hello-k8s
     creator: paulbouwer
     environment: test
     reference: chanwit

@@ -16,24 +16,23 @@ export class MyChart extends Chart {
 
     // Pod
     const pod_image = "paulbouwer/hello-kubernetes:1.8";
-    const pod_label = "hellomanual";
+    const pod_name = "hellomanual"
 
-    new Pod(this, pod_label, {
+    new Pod(this, pod_name, {
       metadata: {
-        namespace: namespace,
         labels: {
-          app: pod_label,
+          app: app_name,
           creator: "paulbouwer",
           environment: "test",
           week: "4",
           reference: "chanwit",
         },
-        name: pod_label,
+        name: pod_name,
       },
       spec: {
         containers: [
           {
-            name: pod_label,
+            name: pod_name,
             image: pod_image,
             ports: [
               {

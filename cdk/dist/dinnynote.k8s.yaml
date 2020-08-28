@@ -4,6 +4,13 @@ metadata:
   name: dinnynote-pontep-3a9631cb
 ---
 apiVersion: v1
+data:
+  pontep_nickname: Din
+kind: ConfigMap
+metadata:
+  name: configmap-for-hellomanual-pod
+---
+apiVersion: v1
 kind: Pod
 metadata:
   labels:
@@ -15,7 +22,13 @@ metadata:
   name: hellomanual
 spec:
   containers:
-    - image: paulbouwer/hello-kubernetes:1.8
+    - env:
+        - name: PONTEP_NICKNAME
+          valueFrom:
+            configMapKeyRef:
+              key: pontep_nickname
+              name: configmap-for-hellomanual-pod
+      image: paulbouwer/hello-kubernetes:1.8
       name: hellomanual
       ports:
         - containerPort: 8080

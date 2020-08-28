@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, Chart } from "cdk8s";
-import { Service, Deployment, Pod, Namespace } from "./imports/k8s";
+import { Service, Deployment, Pod, Namespace, ConfigMap } from "./imports/k8s";
 
 export class MyChart extends Chart {
   constructor(scope: Construct, ns: string) {
@@ -12,6 +12,19 @@ export class MyChart extends Chart {
     // Namespace
     const namespace = "pontep"
     new Namespace(this, namespace, {
+    })
+
+
+
+    // ConfigMap
+    new ConfigMap(this, "hello-configmap", {
+      metadata: {
+        name: "configmap-for-hellomanual-pod"
+      },
+      data: {
+        "pontep_nickname": "Din",
+        "backend_addr": "192.168.1.1:9000"
+      }
     })
 
     // Pod
@@ -39,6 +52,27 @@ export class MyChart extends Chart {
                 containerPort: 8080,
               },
             ],
+            env: [
+              {
+                name: "PONTEP_NICKNAME",
+                valueFrom: {
+                  configMapKeyRef: {
+                    name: "configmap-for-hellomanual-pod",
+                    key: "pontep_nickname"
+                  }
+                }
+              },
+              {
+                name: "SERVER_ADDR",
+                valueFrom: {
+                  configMapKeyRef: {
+                    name: "configmap-for-hellomanual-pod",
+                    key: "backend_addr"
+                  }
+                }
+              },
+
+            ]
           },
         ],
       },

@@ -5,6 +5,7 @@ metadata:
 ---
 apiVersion: v1
 data:
+  backend_addr: 192.168.1.1:9000
   pontep_nickname: Din
 kind: ConfigMap
 metadata:
@@ -27,6 +28,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: pontep_nickname
+              name: configmap-for-hellomanual-pod
+        - name: SERVER_ADDR
+          valueFrom:
+            configMapKeyRef:
+              key: backend_addr
               name: configmap-for-hellomanual-pod
       image: paulbouwer/hello-kubernetes:1.8
       name: hellomanual

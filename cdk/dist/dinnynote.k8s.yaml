@@ -20,7 +20,7 @@ metadata:
     environment: test
     reference: chanwit
     week: "4"
-  name: hellodin
+  name: demo1
 spec:
   containers:
     - env:
@@ -35,7 +35,7 @@ spec:
               key: backend_addr
               name: configmap-for-hellomanual-pod
       image: paulbouwer/hello-kubernetes:1.8
-      name: hellodin
+      name: demo1
       ports:
         - containerPort: 8080
 ---

@@ -29,7 +29,7 @@ export class MyChart extends Chart {
 
     // Pod
     const pod_image = "paulbouwer/hello-kubernetes:1.8";
-    const pod_name = "hellomanual"
+    const pod_name = "hellodin"
 
     new Pod(this, pod_name, {
       metadata: {

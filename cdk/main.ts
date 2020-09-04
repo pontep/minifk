@@ -10,7 +10,7 @@ export class MyChart extends Chart {
     const app_name = "hello-k8s"
 
     // Namespace
-    const namespace = "pontep"
+    const namespace = "ponteptest"
     new Namespace(this, namespace, {
     })
 

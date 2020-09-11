@@ -1,16 +1,15 @@
-import * as kplus from 'cdk8s-plus';
-import * as cdk8s from 'cdk8s';
+import { Construct } from 'constructs';
+import { App, Chart } from 'cdk8s';
 
-const app = new cdk8s.App();
-const chart = new cdk8s.Chart(app, 'Chart');
+export class MyChart extends Chart {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
 
-new kplus.Deployment(chart, 'Deployment', {
-  spec: {
-    replicas: 3,
-    podSpecTemplate: {
-      containers: [new kplus.Container({
-        image: 'ubuntu',
-      })],
-    },
-  },
-});
+    // define resources here
+
+  }
+}
+
+const app = new App();
+new MyChart(app, 'cdk-plus');
+app.synth();

@@ -10,7 +10,7 @@ const chart = new cdk8s.Chart(app, 'DinChart');
 // POD
 const pod = new kplus.Pod(chart, 'HelloPod', {
   metadata: {
-    name: 'HelloSolo'
+    name: 'hellosolo'
   },
   spec: {
     containers: [new kplus.Container({
@@ -22,7 +22,7 @@ const pod = new kplus.Pod(chart, 'HelloPod', {
 // SERVICE
 new kplus.Service(chart, 'HelloService', {
   metadata: {
-    name: 'HelloService'
+    name: 'helloservice'
   }, spec: {
     type: kplus.ServiceType.LOAD_BALANCER,
     ports: [

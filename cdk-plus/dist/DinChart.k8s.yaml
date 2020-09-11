@@ -1,35 +1,60 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ""
+spec:
+  containers:
+    - env: []
+      image: paulbouwer/hello-kubernetes:1.8
+      name: main
+      ports: []
+      volumeMounts: []
+  volumes: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: HelloService
+spec:
+  externalIPs: []
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector: {}
+  type: LoadBalancer
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dinchart-deployment-pod-1315d49b
+  name: dinchart-hellodeployment-pod-f0d6a243
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      cdk8s.deployment: DinChartDeploymentBE3DD0B0
+      cdk8s.deployment: DinChartHelloDeploymentCDBCAC80
   template:
     metadata:
       labels:
-        cdk8s.deployment: DinChartDeploymentBE3DD0B0
+        cdk8s.deployment: DinChartHelloDeploymentCDBCAC80
     spec:
       containers:
         - env: []
-          image: pontep/client
+          image: paulbouwer/hello-kubernetes:1.8
           name: main
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           volumeMounts: []
       volumes: []
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: dinchart-deployment-service-pod-ff051285
+  name: dinchart-hellodeployment-service-pod-83e41e87
 spec:
   externalIPs: []
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80
+      targetPort: 80
   selector:
-    cdk8s.deployment: DinChartDeploymentBE3DD0B0
+    cdk8s.deployment: DinChartHelloDeploymentCDBCAC80
   type: LoadBalancer

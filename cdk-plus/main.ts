@@ -1,31 +1,60 @@
 import * as kplus from 'cdk8s-plus';
 import * as cdk8s from 'cdk8s';
 
-// our cdk app
+// APP
 const app = new cdk8s.App();
 
-// our kuberentes chart
+// CHART
 const chart = new cdk8s.Chart(app, 'DinChart');
 
-// now we create a container that runs our app
-const port = 8080;
+// POD
+const pod = new kplus.Pod(chart, 'HelloPod', {
+  metadata: {
+    name: ''
+  },
+  spec: {
+    containers: [new kplus.Container({
+      image: 'paulbouwer/hello-kubernetes:1.8'
+    })]
+  }
+})
+
+// SERVICE
+new kplus.Service(chart, 'HelloService', {
+  metadata: {
+    name: 'HelloService'
+  }, spec: {
+    type: kplus.ServiceType.LOAD_BALANCER,
+    ports: [
+      {
+        port: 80,
+        targetPort: 8080,
+      }
+    ]
+  }
+})
+
+// CONTAINER
+const port = 80;
 const container = new kplus.Container({
-  image: 'pontep/client',
+  image: 'paulbouwer/hello-kubernetes:1.8',
+  // workingDir: '/client',
+  // command: ["yarn", "serve"],
   port: port,
 })
 
-// now lets create a deployment to run a few instances of this container
-const deployment = new kplus.Deployment(chart, 'Deployment', {
+// DEPLOYMENT
+const deployment = new kplus.Deployment(chart, 'HelloDeployment', {
   spec: {
-    replicas: 3,
+    replicas: 2,
     podSpecTemplate: {
       containers: [container]
     }
   },
 });
 
-// finally, we expose the deployment as a load balancer service and make it run
-deployment.expose({ port: 8080, serviceType: kplus.ServiceType.LOAD_BALANCER })
+// EXPOSE
+deployment.expose({ port: 80, serviceType: kplus.ServiceType.LOAD_BALANCER })
 
 // we are done, synth
 app.synth();  

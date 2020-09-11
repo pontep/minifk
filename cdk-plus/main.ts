@@ -8,7 +8,7 @@ const app = new cdk8s.App();
 const chart = new cdk8s.Chart(app, 'DinChart');
 
 // POD
-const pod = new kplus.Pod(chart, 'HelloPod', {
+new kplus.Pod(chart, 'HelloPod', {
   metadata: {
     name: 'hellosolo'
   },

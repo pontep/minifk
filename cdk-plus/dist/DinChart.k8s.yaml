@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dinchart-deployment-pod-1315d49b
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      cdk8s.deployment: DinChartDeploymentBE3DD0B0
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: DinChartDeploymentBE3DD0B0
+    spec:
+      containers:
+        - env: []
+          image: pontep/client
+          name: main
+          ports:
+            - containerPort: 8080
+          volumeMounts: []
+      volumes: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dinchart-deployment-service-pod-ff051285
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    cdk8s.deployment: DinChartDeploymentBE3DD0B0
+  type: LoadBalancer

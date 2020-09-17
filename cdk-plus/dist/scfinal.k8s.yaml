@@ -91,7 +91,9 @@ spec:
   template:
     metadata:
       labels:
+        app: adder
         cdk8s.deployment: scfinaladder096BBEFC
+      name: adder
     spec:
       containers:
         - env: []
@@ -105,14 +107,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: scfinal-adder-service-pod-3b32b116
+  labels:
+    app: adder
+  name: adder
 spec:
   externalIPs: []
   ports:
     - port: 8080
-      targetPort: 8080
   selector:
-    cdk8s.deployment: scfinaladder096BBEFC
+    app: adder
   type: ClusterIP
 ---
 apiVersion: apps/v1

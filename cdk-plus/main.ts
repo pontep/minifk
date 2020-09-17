@@ -25,11 +25,11 @@ const front = new kplus.Deployment(chart, 'front', {
 })
 
 front.expose({
-  port: 6060,
+  port: 9090,
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
-new kplus.Deployment(chart, 'source', {
+const source = new kplus.Deployment(chart, 'source', {
   metadata: {
     name: 'source-deployment'
   },
@@ -46,7 +46,11 @@ new kplus.Deployment(chart, 'source', {
   }
 })
 
-new kplus.Deployment(chart, 'adder', {
+source.expose({
+  port: 8080
+})
+
+const adder = new kplus.Deployment(chart, 'adder', {
   metadata: {
     name: 'adder-deployment'
   },
@@ -63,7 +67,11 @@ new kplus.Deployment(chart, 'adder', {
   }
 })
 
-new kplus.Deployment(chart, 'suber', {
+adder.expose({
+  port: 8080
+})
+
+const suber = new kplus.Deployment(chart, 'suber', {
   metadata: {
     name: 'suber-deployment'
   },
@@ -80,6 +88,7 @@ new kplus.Deployment(chart, 'suber', {
   }
 })
 
+suber.expose({ port: 8080 })
 
 // we are done, synth
 app.synth();  

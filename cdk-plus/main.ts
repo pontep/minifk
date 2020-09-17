@@ -5,34 +5,81 @@ import * as cdk8s from 'cdk8s';
 const app = new cdk8s.App();
 
 // CHART
-const chart = new cdk8s.Chart(app, 'DinChart');
-const podinfo = new kplus.Container({
-  image: 'stefanprodan/podinfo',
-  port: 9898,
-  name: 'podinfo'
-})
+const chart = new cdk8s.Chart(app, 'scfinal');
 
-const podinfo_dep = new kplus.Deployment(chart, 'podinfo', {
+const front = new kplus.Deployment(chart, 'front', {
   metadata: {
-    name: 'podinfo',
-    labels: {
-      'app': 'podinfo'
-    }
+    name: 'front-deployment'
   },
   spec: {
-    replicas: 3,
     podSpecTemplate: {
       containers: [
-        podinfo
+        new kplus.Container({
+          image: 'chanwit/front',
+          port: 8080,
+          name: 'front'
+        })
       ]
     }
   }
 })
 
-podinfo_dep.expose({
-  port: 9898,
+front.expose({
+  port: 6060,
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
+
+new kplus.Deployment(chart, 'source', {
+  metadata: {
+    name: 'source-deployment'
+  },
+  spec: {
+    podSpecTemplate: {
+      containers: [
+        new kplus.Container({
+          image: 'chanwit/source',
+          port: 8080,
+          name: 'source'
+        })
+      ]
+    }
+  }
+})
+
+new kplus.Deployment(chart, 'adder', {
+  metadata: {
+    name: 'adder-deployment'
+  },
+  spec: {
+    podSpecTemplate: {
+      containers: [
+        new kplus.Container({
+          image: 'chanwit/adder',
+          port: 8080,
+          name: 'adder'
+        })
+      ]
+    }
+  }
+})
+
+new kplus.Deployment(chart, 'suber', {
+  metadata: {
+    name: 'suber-deployment'
+  },
+  spec: {
+    podSpecTemplate: {
+      containers: [
+        new kplus.Container({
+          image: 'chanwit/suber',
+          port: 8080,
+          name: 'suber'
+        })
+      ]
+    }
+  }
+})
+
 
 // we are done, synth
 app.synth();  

@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: scfinalfrontE4A03597
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: scfinalfrontE4A03597
+    spec:
+      containers:
+        - env: []
+          image: chanwit/front
+          name: front
+          ports:
+            - containerPort: 8080
+          volumeMounts: []
+      volumes: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scfinal-front-service-pod-19ab6a61
+spec:
+  externalIPs: []
+  ports:
+    - port: 6060
+      targetPort: 8080
+  selector:
+    cdk8s.deployment: scfinalfrontE4A03597
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: source-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: scfinalsourceE142463D
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: scfinalsourceE142463D
+    spec:
+      containers:
+        - env: []
+          image: chanwit/source
+          name: source
+          ports:
+            - containerPort: 8080
+          volumeMounts: []
+      volumes: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adder-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: scfinaladder096BBEFC
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: scfinaladder096BBEFC
+    spec:
+      containers:
+        - env: []
+          image: chanwit/adder
+          name: adder
+          ports:
+            - containerPort: 8080
+          volumeMounts: []
+      volumes: []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: suber-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: scfinalsuber994C1367
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: scfinalsuber994C1367
+    spec:
+      containers:
+        - env: []
+          image: chanwit/suber
+          name: suber
+          ports:
+            - containerPort: 8080
+          volumeMounts: []
+      volumes: []

@@ -51,6 +51,7 @@ spec:
     metadata:
       labels:
         cdk8s.deployment: scfinalsourceE142463D
+      name: source
     spec:
       containers:
         - env: []

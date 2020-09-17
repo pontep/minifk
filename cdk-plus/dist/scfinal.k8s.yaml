@@ -50,6 +50,7 @@ spec:
   template:
     metadata:
       labels:
+        app: source
         cdk8s.deployment: scfinalsourcedeployment421AE38E
       name: source
     spec:
@@ -65,12 +66,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: source
+  name: scfinal-source-deployment-service-pod-3815785e
 spec:
   externalIPs: []
   ports:
     - port: 8080
-  selector: {}
+      targetPort: 8080
+  selector:
+    cdk8s.deployment: scfinalsourcedeployment421AE38E
   type: ClusterIP
 ---
 apiVersion: apps/v1

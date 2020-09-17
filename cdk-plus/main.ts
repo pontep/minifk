@@ -32,7 +32,7 @@ front.expose({
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
-new kplus.Deployment(chart, 'source-deployment', {
+const source = new kplus.Deployment(chart, 'source-deployment', {
   metadata: {
     name: 'source',
     labels: {
@@ -42,6 +42,9 @@ new kplus.Deployment(chart, 'source-deployment', {
   spec: {
     podMetadataTemplate: {
       name: 'source',
+      labels: {
+        app: 'source'
+      }
     },
     podSpecTemplate: {
       containers: [
@@ -55,17 +58,8 @@ new kplus.Deployment(chart, 'source-deployment', {
   }
 })
 
-new kplus.Service(chart, 'source-service', {
-  metadata: {
-    name: 'source',
-  },
-  spec: {
-    ports: [
-      {
-        port: 8080
-      }
-    ]
-  }
+source.expose({
+  port: 8080
 })
 
 const adder = new kplus.Deployment(chart, 'adder', {

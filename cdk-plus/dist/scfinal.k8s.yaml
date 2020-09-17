@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: front
   name: front
 spec:
   replicas: 1
@@ -37,6 +39,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: source
   name: source
 spec:
   replicas: 1
@@ -73,6 +77,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: adder
   name: adder
 spec:
   replicas: 1
@@ -109,6 +115,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: suber
   name: suber
 spec:
   replicas: 1

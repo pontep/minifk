@@ -10,6 +10,9 @@ const chart = new cdk8s.Chart(app, 'scfinal');
 const front = new kplus.Deployment(chart, 'front', {
   metadata: {
     name: 'front',
+    labels: {
+      app: 'front'
+    }
   },
   spec: {
     podSpecTemplate: {
@@ -31,7 +34,10 @@ front.expose({
 
 const source = new kplus.Deployment(chart, 'source', {
   metadata: {
-    name: 'source'
+    name: 'source',
+    labels: {
+      app: 'source'
+    }
   },
   spec: {
     podSpecTemplate: {
@@ -52,7 +58,10 @@ source.expose({
 
 const adder = new kplus.Deployment(chart, 'adder', {
   metadata: {
-    name: 'adder'
+    name: 'adder',
+    labels: {
+      app: 'adder'
+    }
   },
   spec: {
     podSpecTemplate: {
@@ -73,7 +82,10 @@ adder.expose({
 
 const suber = new kplus.Deployment(chart, 'suber', {
   metadata: {
-    name: 'suber'
+    name: 'suber',
+    labels: {
+      app: 'suber'
+    }
   },
   spec: {
     podSpecTemplate: {

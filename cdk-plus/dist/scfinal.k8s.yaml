@@ -46,12 +46,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.deployment: scfinalsourcedeployment421AE38E
+      cdk8s.deployment: scfinalSourceDeployment5B3F50C7
   template:
     metadata:
       labels:
         app: source
-        cdk8s.deployment: scfinalsourcedeployment421AE38E
+        cdk8s.deployment: scfinalSourceDeployment5B3F50C7
       name: source
     spec:
       containers:
@@ -66,14 +66,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: scfinal-source-deployment-service-pod-3815785e
+  labels:
+    app: source
+  name: source
 spec:
   externalIPs: []
   ports:
     - port: 8080
-      targetPort: 8080
   selector:
-    cdk8s.deployment: scfinalsourcedeployment421AE38E
+    app: source
   type: ClusterIP
 ---
 apiVersion: apps/v1

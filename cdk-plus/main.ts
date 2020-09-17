@@ -7,6 +7,7 @@ const app = new cdk8s.App();
 // CHART
 const chart = new cdk8s.Chart(app, 'scfinal');
 
+// Front
 const front = new kplus.Deployment(chart, 'front', {
   metadata: {
     name: 'front',
@@ -32,7 +33,7 @@ front.expose({
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
-const source = new kplus.Deployment(chart, 'source-deployment', {
+new kplus.Deployment(chart, 'SourceDeployment', {
   metadata: {
     name: 'source',
     labels: {
@@ -57,10 +58,22 @@ const source = new kplus.Deployment(chart, 'source-deployment', {
     }
   }
 })
-
-source.expose({
-  port: 8080
+const source_service = new kplus.Service(chart, 'SourceService', {
+  metadata: {
+    name: 'source',
+    labels: {
+      app: 'source'
+    }
+  },
+  spec: {
+    ports: [
+      {
+        port: 8080
+      }
+    ]
+  }
 })
+source_service.spec.addSelector('app', 'source')
 
 const adder = new kplus.Deployment(chart, 'adder', {
   metadata: {

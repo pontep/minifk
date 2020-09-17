@@ -6,55 +6,33 @@ const app = new cdk8s.App();
 
 // CHART
 const chart = new cdk8s.Chart(app, 'DinChart');
+const podinfo = new kplus.Container({
+  image: 'stefanprodan/podinfo',
+  port: 9898,
+  name: 'podinfo'
+})
 
-// POD
-new kplus.Pod(chart, 'HelloPod', {
+const podinfo_dep = new kplus.Deployment(chart, 'podinfo', {
   metadata: {
-    name: 'hellosolo'
-  },
-  spec: {
-    containers: [new kplus.Container({
-      image: 'paulbouwer/hello-kubernetes:1.8'
-    })]
-  }
-})
-
-// SERVICE
-new kplus.Service(chart, 'HelloService', {
-  metadata: {
-    name: 'helloservice'
-  }, spec: {
-    type: kplus.ServiceType.LOAD_BALANCER,
-    ports: [
-      {
-        port: 80,
-        targetPort: 8080,
-      }
-    ]
-  }
-})
-
-// CONTAINER
-const port = 80;
-const container = new kplus.Container({
-  image: 'paulbouwer/hello-kubernetes:1.8',
-  // workingDir: '/client',
-  // command: ["yarn", "serve"],
-  port: port,
-})
-
-// DEPLOYMENT
-const deployment = new kplus.Deployment(chart, 'HelloDeployment', {
-  spec: {
-    replicas: 2,
-    podSpecTemplate: {
-      containers: [container]
+    name: 'podinfo',
+    labels: {
+      'app': 'podinfo'
     }
   },
-});
+  spec: {
+    replicas: 3,
+    podSpecTemplate: {
+      containers: [
+        podinfo
+      ]
+    }
+  }
+})
 
-// EXPOSE
-deployment.expose({ port: 80, serviceType: kplus.ServiceType.LOAD_BALANCER })
+podinfo_dep.expose({
+  port: 9898,
+  serviceType: kplus.ServiceType.LOAD_BALANCER
+})
 
 // we are done, synth
 app.synth();  

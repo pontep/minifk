@@ -40,6 +40,9 @@ const source = new kplus.Deployment(chart, 'source', {
     }
   },
   spec: {
+    podMetadataTemplate: {
+      name: 'source',
+    },
     podSpecTemplate: {
       containers: [
         new kplus.Container({
@@ -53,7 +56,7 @@ const source = new kplus.Deployment(chart, 'source', {
 })
 
 source.expose({
-  port: 8080
+  port: 8080,
 })
 
 const adder = new kplus.Deployment(chart, 'adder', {

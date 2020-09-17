@@ -28,11 +28,13 @@ const front = new kplus.Deployment(chart, 'front', {
   }
 })
 
+// expose front
 front.expose({
   port: 9090,
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
+// Source
 new kplus.Deployment(chart, 'SourceDeployment', {
   metadata: {
     name: 'source',
@@ -58,6 +60,8 @@ new kplus.Deployment(chart, 'SourceDeployment', {
     }
   }
 })
+
+// expose source by specify service.
 const source_service = new kplus.Service(chart, 'SourceService', {
   metadata: {
     name: 'source',
@@ -75,7 +79,8 @@ const source_service = new kplus.Service(chart, 'SourceService', {
 })
 source_service.spec.addSelector('app', 'source')
 
-const adder = new kplus.Deployment(chart, 'adder', {
+// Adder
+new kplus.Deployment(chart, 'adder', {
   metadata: {
     name: 'adder',
     labels: {
@@ -83,6 +88,12 @@ const adder = new kplus.Deployment(chart, 'adder', {
     }
   },
   spec: {
+    podMetadataTemplate: {
+      name: 'adder',
+      labels: {
+        app: 'adder'
+      }
+    },
     podSpecTemplate: {
       containers: [
         new kplus.Container({
@@ -95,9 +106,27 @@ const adder = new kplus.Deployment(chart, 'adder', {
   }
 })
 
-adder.expose({
-  port: 8080
+const adder_service = new kplus.Service(chart, 'AdderService', {
+  metadata: {
+    name: 'adder',
+    labels: {
+      app: 'adder'
+    },
+  },
+  spec: {
+    ports: [
+      {
+        name: 'adder',
+        port: 8080,
+      }
+    ]
+  }
 })
+adder_service.spec.addSelector('app', 'adder')
+
+// adder.expose({
+//   port: 8080
+// })
 
 const suber = new kplus.Deployment(chart, 'suber', {
   metadata: {

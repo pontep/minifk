@@ -32,7 +32,7 @@ front.expose({
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
-const source = new kplus.Deployment(chart, 'source', {
+new kplus.Deployment(chart, 'source-deployment', {
   metadata: {
     name: 'source',
     labels: {
@@ -55,8 +55,17 @@ const source = new kplus.Deployment(chart, 'source', {
   }
 })
 
-source.expose({
-  port: 8080,
+new kplus.Service(chart, 'source-service', {
+  metadata: {
+    name: 'source',
+  },
+  spec: {
+    ports: [
+      {
+        port: 8080
+      }
+    ]
+  }
 })
 
 const adder = new kplus.Deployment(chart, 'adder', {

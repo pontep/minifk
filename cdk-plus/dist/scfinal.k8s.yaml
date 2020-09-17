@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-deployment
+  name: front
 spec:
   replicas: 1
   selector:
@@ -37,7 +37,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: source-deployment
+  name: source
 spec:
   replicas: 1
   selector:
@@ -73,7 +73,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adder-deployment
+  name: adder
 spec:
   replicas: 1
   selector:
@@ -109,7 +109,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: suber-deployment
+  name: suber
 spec:
   replicas: 1
   selector:

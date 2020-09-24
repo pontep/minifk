@@ -1,154 +1,45 @@
 import * as kplus from 'cdk8s-plus';
 import * as cdk8s from 'cdk8s';
+import * as path from 'path';
 
-// APP
+// our cdk app
 const app = new cdk8s.App();
 
-// CHART
+// our kuberentes chart
 const chart = new cdk8s.Chart(app, 'cdk8s-plus');
 
-// Front
-const front = new kplus.Deployment(chart, 'front', {
-  metadata: {
-    name: 'front',
-    labels: {
-      app: 'front'
-    }
-  },
+// lets create a volume that contains our app.
+// we use a trick with a config map!
+const appData = new kplus.ConfigMap(chart, 'AppData');
+appData.addDirectory(path.join(__dirname, 'app'));
+
+const appVolume = kplus.Volume.fromConfigMap(appData);
+
+// now we create a container that runs our app
+const appPath = '/var/lib/app';
+const port = 80;
+const container = new kplus.Container({
+  image: 'node:14.4.0-alpine3.12',
+  command: ['node', 'index.js', `${port}`],
+  port: port,
+  workingDir: appPath,
+})
+
+// make the app accessible to the container
+container.mount(appPath, appVolume);
+
+// now lets create a deployment to run a few instances of this container
+const deployment = new kplus.Deployment(chart, 'Deployment', {
   spec: {
+    replicas: 3,
     podSpecTemplate: {
-      containers: [
-        new kplus.Container({
-          image: 'chanwit/front',
-          port: 8080,
-          name: 'front'
-        })
-      ]
-    }
-  }
-})
-
-// expose front
-front.expose({
-  port: 9090,
-  serviceType: kplus.ServiceType.LOAD_BALANCER
-})
-
-// Source
-new kplus.Deployment(chart, 'SourceDeployment', {
-  metadata: {
-    name: 'source',
-    labels: {
-      app: 'source'
+      containers: [container]
     }
   },
-  spec: {
-    podMetadataTemplate: {
-      name: 'source',
-      labels: {
-        app: 'source'
-      }
-    },
-    podSpecTemplate: {
-      containers: [
-        new kplus.Container({
-          image: 'chanwit/source',
-          port: 8080,
-          name: 'source'
-        })
-      ]
-    }
-  }
-})
+});
 
-// expose source by specify service.
-const source_service = new kplus.Service(chart, 'SourceService', {
-  metadata: {
-    name: 'source',
-    labels: {
-      app: 'source'
-    }
-  },
-  spec: {
-    ports: [
-      {
-        port: 8080
-      }
-    ]
-  }
-})
-source_service.spec.addSelector('app', 'source')
-
-// Adder
-new kplus.Deployment(chart, 'adder', {
-  metadata: {
-    name: 'adder',
-    labels: {
-      app: 'adder'
-    }
-  },
-  spec: {
-    podMetadataTemplate: {
-      name: 'adder',
-      labels: {
-        app: 'adder'
-      }
-    },
-    podSpecTemplate: {
-      containers: [
-        new kplus.Container({
-          image: 'chanwit/adder',
-          port: 8080,
-          name: 'adder'
-        })
-      ]
-    }
-  }
-})
-
-const adder_service = new kplus.Service(chart, 'AdderService', {
-  metadata: {
-    name: 'adder',
-    labels: {
-      app: 'adder'
-    },
-  },
-  spec: {
-    ports: [
-      {
-        name: 'adder',
-        port: 8080,
-      }
-    ]
-  }
-})
-adder_service.spec.addSelector('app', 'adder')
-
-// adder.expose({
-//   port: 8080
-// })
-
-const suber = new kplus.Deployment(chart, 'suber', {
-  metadata: {
-    name: 'suber',
-    labels: {
-      app: 'suber'
-    }
-  },
-  spec: {
-    podSpecTemplate: {
-      containers: [
-        new kplus.Container({
-          image: 'chanwit/suber',
-          port: 8080,
-          name: 'suber'
-        })
-      ]
-    }
-  }
-})
-
-suber.expose({ port: 8080 })
+// finally, we expose the deployment as a load balancer service and make it run
+deployment.expose({ port: 8080, serviceType: kplus.ServiceType.LOAD_BALANCER })
 
 // we are done, synth
-app.synth();  
+app.synth();

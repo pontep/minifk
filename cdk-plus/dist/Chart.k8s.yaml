@@ -1,0 +1,63 @@
+apiVersion: v1
+data:
+  index.js: |
+    var http = require("http");
+
+    var port = process.argv[2];
+
+    //create a server object:
+    http
+      .createServer(function (req, res) {
+        res.write("Hello World!"); //write a response to the client
+        res.end(); //end the response
+      })
+      .listen(port); //the server object listens on port 80
+kind: ConfigMap
+metadata:
+  name: chart-appdata-configmap-da4c63ab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chart-deployment-pod-d4285cc9
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      cdk8s.deployment: ChartDeploymentCFC2E30C
+  template:
+    metadata:
+      labels:
+        cdk8s.deployment: ChartDeploymentCFC2E30C
+    spec:
+      containers:
+        - command:
+            - node
+            - index.js
+            - "80"
+          env: []
+          image: node:14.4.0-alpine3.12
+          name: main
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /var/lib/app
+              name: configmap-chart-appdata-configmap-da4c63ab
+          workingDir: /var/lib/app
+      volumes:
+        - configMap:
+            name: chart-appdata-configmap-da4c63ab
+          name: configmap-chart-appdata-configmap-da4c63ab
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chart-deployment-service-pod-42f50c26
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+      targetPort: 80
+  selector:
+    cdk8s.deployment: ChartDeploymentCFC2E30C
+  type: LoadBalancer

@@ -132,5 +132,5 @@ class KubeStack extends TerraformStack {
 }
 
 const app = new App();
-new KubeStack(app, 'tf-cdk-example');
+new KubeStack(app, 'cdk-terraform');
 app.synth();

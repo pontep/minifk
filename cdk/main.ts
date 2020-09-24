@@ -141,5 +141,5 @@ export class MyChart extends Chart {
 }
 
 const app = new App();
-new MyChart(app, "dinnynote");
+new MyChart(app, "cdk8s");
 app.synth();

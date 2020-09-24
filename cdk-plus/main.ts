@@ -5,7 +5,7 @@ import * as cdk8s from 'cdk8s';
 const app = new cdk8s.App();
 
 // CHART
-const chart = new cdk8s.Chart(app, 'scfinal');
+const chart = new cdk8s.Chart(app, 'cdk8s-plus');
 
 // Front
 const front = new kplus.Deployment(chart, 'front', {

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cdk8s-deployment-e659e48c
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: guestbook
+        tier: frontend
+    spec:
+      containers:
+        - image: gcr.io/google-samples/gb-frontend:v4
+          name: php-redis
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: guestbook
+    tier: frontend
+  name: cdk8s-service-aa269ca4
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: guestbook
+    tier: frontend
+  type: LoadBalancer

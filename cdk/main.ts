@@ -1,145 +1,42 @@
-import { Construct } from "constructs";
-import { App, Chart } from "cdk8s";
-import { Service, Deployment, Pod, Namespace, ConfigMap } from "./imports/k8s";
+import * as cdk8s from 'cdk8s';
+import * as k8s from "./imports/k8s";
 
-export class MyChart extends Chart {
-  constructor(scope: Construct, ns: string) {
-    super(scope, ns);
+// our cdk app
+const app = new cdk8s.App();
 
-    // Defining
-    const app_name = "hello-k8s"
+// our kuberentes chart
+const chart = new cdk8s.Chart(app, 'cdk8s');
 
-    // Namespace
-    const namespace = "ponteptest"
-    new Namespace(this, namespace, {
-    })
+const labels = { app: 'guestbook', tier: 'frontend' };
 
-
-
-    // ConfigMap
-    new ConfigMap(this, "hello-configmap", {
-      metadata: {
-        name: "configmap-for-hellomanual-pod"
-      },
-      data: {
-        "pontep_nickname": "Din",
-        "backend_addr": "192.168.1.1:9000"
-      }
-    })
-
-    // Pod
-    const pod_image = "paulbouwer/hello-kubernetes:1.8";
-    const pod_name = "demo1"
-
-    new Pod(this, pod_name, {
-      metadata: {
-        labels: {
-          app: app_name,
-          creator: "paulbouwer",
-          environment: "test",
-          week: "4",
-          reference: "chanwit",
-        },
-        name: pod_name,
-      },
+new k8s.Deployment(chart, 'deployment', {
+  spec: {
+    selector: { matchLabels: labels },
+    replicas: 3,
+    template: {
+      metadata: { labels },
       spec: {
         containers: [
           {
-            name: pod_name,
-            image: pod_image,
-            ports: [
-              {
-                containerPort: 8080,
-              },
-            ],
-            env: [
-              {
-                name: "PONTEP_NICKNAME",
-                valueFrom: {
-                  configMapKeyRef: {
-                    name: "configmap-for-hellomanual-pod",
-                    key: "pontep_nickname"
-                  }
-                }
-              },
-              {
-                name: "SERVER_ADDR",
-                valueFrom: {
-                  configMapKeyRef: {
-                    name: "configmap-for-hellomanual-pod",
-                    key: "backend_addr"
-                  }
-                }
-              },
-
-            ]
-          },
-        ],
-      },
-    });
-
-    // Deployment
-    const deploy_name = "hellodeployment"
-    const deploy_pod_name = "hello-kubernetes"
-    const deploy_image = "paulbouwer/hello-kubernetes:1.8";
-    new Deployment(this, deploy_name, {
-      metadata: {
-        name: deploy_name
-      },
-      spec: {
-        replicas: 2,
-        selector: {
-          matchLabels: {
-            "app": app_name
+            name: 'php-redis',
+            image: 'gcr.io/google-samples/gb-frontend:v4',
+            ports: [{ containerPort: 80 }],
+            resources: { requests: { cpu: '100m', memory: '100Mi' } }
           }
-        },
-        template: {
-          metadata: {
-            labels: {
-              "app": app_name
-            }
-          },
-          spec: {
-            containers: [
-              {
-                name: deploy_pod_name,
-                image: deploy_image,
-                ports: [
-                  {
-                    containerPort: 8080
-                  }
-                ]
-              }
-            ]
-          }
-        }
+        ]
       }
-    })
-    // Service
-    const service_name = "helloservice"
-    const service_type = "LoadBalancer"
-    new Service(this, service_name, {
-      metadata: {
-        name: service_name
-      },
-      spec: {
-        type: service_type,
-        ports: [
-          {
-            port: 80,
-            targetPort: 8080
-          }
-        ],
-        selector: {
-          "app": app_name
-        }
-      }
-    })
-
-
+    }
   }
-}
+});
 
-const app = new App();
-new MyChart(app, "cdk8s");
+new k8s.Service(chart, 'service', {
+  metadata: { labels },
+  spec: {
+    type: 'LoadBalancer',
+    ports: [{ port: 80 }],
+    selector: labels,
+  }
+});
+
+// we are done, synth
 app.synth();

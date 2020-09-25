@@ -5,14 +5,14 @@ import * as k8s from "./imports/k8s";
 const app = new cdk8s.App();
 
 // our kuberentes chart
-const chart = new cdk8s.Chart(app, 'cdk8s-update');
+const chart = new cdk8s.Chart(app, 'cdk8s');
 
 const labels = { app: 'hello-kubernetes', tier: 'frontend' };
 
 new k8s.Deployment(chart, 'deployment', {
   spec: {
     selector: { matchLabels: labels },
-    replicas: 3,
+    replicas: 5,
     template: {
       metadata: { labels },
       spec: {

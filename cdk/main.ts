@@ -32,7 +32,7 @@ new k8s.Service(chart, 'service', {
   metadata: { labels },
   spec: {
     type: 'LoadBalancer',
-    ports: [{ port: 80 }],
+    ports: [{ port: 80, targetPort: 8080 }],
     selector: labels,
   }
 });

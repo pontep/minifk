@@ -92,6 +92,11 @@ jobs:
         cd cdk-terraform
         npm install && npm install -g cdktf-cli
     
+    - name: Geting providers
+      run: |
+        cd cdk-terraform
+        cdktf get
+    
     - name: Compiling
       run: |
         cd cdk-terraform
@@ -123,7 +128,7 @@ jobs:
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.4.0
         with:
-          commit_message: cdk+3 commit #Commit message
+          commit_message: cdk+3 Auto commit #Commit message
   
    # - name: Create Pull Request
     #  if: ${{ success() }}

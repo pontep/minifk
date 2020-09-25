@@ -27,5 +27,7 @@ deployment.expose({
   serviceType: kplus.ServiceType.LOAD_BALANCER
 })
 
+export { app }
+
 // we are done, synth
 app.synth();

@@ -112,10 +112,10 @@ jobs:
         cd cdk-terraform
         cdktf synth
     
-    - name: Deploying
-      run: |
-        cd cdk-terraform
-        cdktf deploy --auto-approve
+#     - name: Deploying
+#       run: |
+#         cd cdk-terraform
+#         cdktf deploy --auto-approve
             
             
   commit:

@@ -1,25 +1,14 @@
-# This is a basic workflow to help you get started with Actions
-
 name: cdk+3
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    
 jobs:
-  # This workflow contains a single job called "build"
   cdk8s:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checks-out
       uses: actions/checkout@v2
     
@@ -35,17 +24,20 @@ jobs:
       run: |
         cd cdk
         npm run compile
-    
-#     - name: Testing
-#       run: |
-#         cd cdk
-#         npm run test
-      
+  
     - name: Synthing
       run: |
         cd cdk
         npm run synth
-  
+    
+    - name: Upload dist result for job cdk8s
+      uses: actions/upload-artifact@v2
+      with:
+        name: cdk8s
+        path: cdk/dist/cdk8s.k8s.yaml
+
+        
+      
   cdk8s-plus:
     runs-on: ubuntu-latest
     steps:
@@ -64,16 +56,17 @@ jobs:
       run: |
         cd cdk-plus
         npm run compile
-    
-#     - name: Testing
-#       run: |
-#         cd cdk-plus
-#         npm run test
       
     - name: Synthing
       run: |
         cd cdk-plus
         npm run synth
+    
+    - name: Upload dist result for job cdk8s-plus
+      uses: actions/upload-artifact@v2
+      with:
+        name: cdk8s-plus
+        path: cdk-plus/dist/cdk8s-plus.k8s.yaml
   
   cdk-terraform:
     runs-on: ubuntu-latest
@@ -124,7 +117,17 @@ jobs:
     steps:
       - name: Checks-out
         uses: actions/checkout@v2
-        
+      
+      - name: Download dist result for cdk8s
+        uses: actions/download-artifact@v2
+        with:
+          name: cdk8s 
+      
+      - name: Download dist result for cdk8s-plus
+        uses: actions/download-artifact@v2
+        with:
+          name: cdk8s-plus
+      
       - name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4.4.0
         with:

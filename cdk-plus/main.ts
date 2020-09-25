@@ -7,8 +7,6 @@ const app = new cdk8s.App();
 // our kuberentes chart
 const chart = new cdk8s.Chart(app, 'cdk8s-plus');
 
-const labels = { app: 'guestbook', tier: 'frontend' };
-
 const deployment = new kplus.Deployment(chart, 'deployment', {
   spec: {
     replicas: 3,
@@ -20,9 +18,6 @@ const deployment = new kplus.Deployment(chart, 'deployment', {
           port: 8080,
         })
       ]
-    },
-    podMetadataTemplate: {
-      labels,
     }
   }
 });

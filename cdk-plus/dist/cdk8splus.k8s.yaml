@@ -10,9 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: guestbook
         cdk8s.deployment: cdk8splusdeployment6E48965B
-        tier: frontend
     spec:
       containers:
         - env: []

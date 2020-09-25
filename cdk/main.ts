@@ -19,9 +19,8 @@ new k8s.Deployment(chart, 'deployment', {
         containers: [
           {
             name: 'php-redis',
-            image: 'gcr.io/google-samples/gb-frontend:v4',
-            ports: [{ containerPort: 80 }],
-            resources: { requests: { cpu: '100m', memory: '100Mi' } }
+            image: 'paulbouwer/hello-kubernetes:1.8',
+            ports: [{ containerPort: 8080 }]
           }
         ]
       }

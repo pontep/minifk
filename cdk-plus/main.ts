@@ -16,8 +16,8 @@ const deployment = new kplus.Deployment(chart, 'deployment', {
       containers: [
         new kplus.Container({
           name: 'php-redis',
-          image: 'gcr.io/google-samples/gb-frontend:v4',
-          port: 80,
+          image: 'paulbouwer/hello-kubernetes:1.8',
+          port: 8080,
         })
       ]
     },

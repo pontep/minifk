@@ -5,7 +5,7 @@ import * as k8s from "./imports/k8s";
 const app = new cdk8s.App();
 
 // our kuberentes chart
-const chart = new cdk8s.Chart(app, 'cdk8s');
+const chart = new cdk8s.Chart(app, 'cdk8s-update');
 
 const labels = { app: 'hello-kubernetes', tier: 'frontend' };
 

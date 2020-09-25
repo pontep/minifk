@@ -15,7 +15,7 @@ const deployment = new kplus.Deployment(chart, 'deployment', {
     podSpecTemplate: {
       containers: [
         new kplus.Container({
-          name: 'hello-kubernetes:1.8',
+          name: 'hello-kubernetes',
           image: 'paulbouwer/hello-kubernetes:1.8',
           port: 8080,
         })

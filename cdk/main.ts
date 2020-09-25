@@ -18,7 +18,7 @@ new k8s.Deployment(chart, 'deployment', {
       spec: {
         containers: [
           {
-            name: 'hello-kubernetes:1.8',
+            name: 'hello-kubernetes',
             image: 'paulbouwer/hello-kubernetes:1.8',
             ports: [{ containerPort: 8080 }]
           }

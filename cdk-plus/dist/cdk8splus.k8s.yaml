@@ -17,7 +17,7 @@ spec:
       containers:
         - env: []
           image: paulbouwer/hello-kubernetes:1.8
-          name: hello-kubernetes:1.8
+          name: hello-kubernetes
           ports:
             - containerPort: 8080
           volumeMounts: []

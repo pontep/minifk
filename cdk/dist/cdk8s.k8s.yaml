@@ -15,14 +15,10 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: gcr.io/google-samples/gb-frontend:v4
+        - image: paulbouwer/hello-kubernetes:1.8
           name: php-redis
           ports:
-            - containerPort: 80
-          resources:
-            requests:
-              cpu: 100m
-              memory: 100Mi
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service

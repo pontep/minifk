@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - env: []
-          image: gcr.io/google-samples/gb-frontend:v4
+          image: paulbouwer/hello-kubernetes:1.8
           name: php-redis
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           volumeMounts: []
       volumes: []
 ---
@@ -31,7 +31,7 @@ spec:
   externalIPs: []
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 8080
   selector:
     cdk8s.deployment: cdk8splusdeployment6E48965B
   type: LoadBalancer

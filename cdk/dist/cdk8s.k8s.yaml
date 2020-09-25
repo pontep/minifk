@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - image: paulbouwer/hello-kubernetes:1.8
-          name: php-redis
+          name: hello-kubernetes:1.8
           ports:
             - containerPort: 8080
 ---

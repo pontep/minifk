@@ -1,0 +1,88 @@
+{
+  "machines": [
+    {
+      "container": "firekube-master-0",
+      "state": "Stopped",
+      "spec": {
+        "name": "master-%d",
+        "image": "chanwit/minifk-master:1.15.9",
+        "privileged": true,
+        "volumes": [
+          {
+            "type": "bind",
+            "source": "/sys/fs/cgroup",
+            "destination": "/sys/fs/cgroup",
+            "readOnly": false
+          },
+          {
+            "type": "volume",
+            "source": "/var/lib/docker/volumes/minifk-0/_data",
+            "destination": "/var/lib/docker",
+            "readOnly": true
+          }
+        ],
+        "cmd": "/sbin/init",
+        "backend": "docker",
+        "ignite": {
+          "cpus": 2,
+          "memory": "4GB",
+          "diskSize": "10GB",
+          "kernel": "chanwit/ignite-kernel:4.19.47"
+        }
+      },
+      "ports": null,
+      "hostname": "master-0",
+      "image": "chanwit/minifk-master:1.15.9",
+      "cmd": "/sbin/init",
+      "ip": "",
+      "runtimeNetworks": [
+        {
+          "name": "bridge",
+          "mask": "0.0.0.0"
+        }
+      ]
+    },
+    {
+      "container": "firekube-worker-0",
+      "state": "Stopped",
+      "spec": {
+        "name": "worker-%d",
+        "image": "chanwit/minifk-worker:1.15.9",
+        "privileged": true,
+        "volumes": [
+          {
+            "type": "volume",
+            "source": "/var/lib/docker/volumes/minifk-1/_data",
+            "destination": "/var/lib/docker",
+            "readOnly": true
+          },
+          {
+            "type": "bind",
+            "source": "/sys/fs/cgroup",
+            "destination": "/sys/fs/cgroup",
+            "readOnly": false
+          }
+        ],
+        "cmd": "/sbin/init",
+        "backend": "docker",
+        "ignite": {
+          "cpus": 2,
+          "memory": "4GB",
+          "diskSize": "10GB",
+          "kernel": "chanwit/ignite-kernel:4.19.47"
+        }
+      },
+      "ports": null,
+      "hostname": "worker-0",
+      "image": "chanwit/minifk-worker:1.15.9",
+      "cmd": "/sbin/init",
+      "ip": "",
+      "runtimeNetworks": [
+        {
+          "name": "bridge",
+          "mask": "0.0.0.0"
+        }
+      ]
+    }
+  ]
+}

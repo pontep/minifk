@@ -1,0 +1,31 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: hello-k8s-istiooperator-825bbe40
+spec:
+  profile: demo
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: hello-k8s-istio-gateway-c6d6401d
+spec:
+  selector:
+    app: my-gateway-controller
+  servers:
+    - hosts:
+        - ext-host.example.com
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        privateKey: /tmp/tls.key
+        serverCertificate: /tmp/tls.crt
+---
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: hello-k8s-istio-policy-36a8428a
+spec: {}

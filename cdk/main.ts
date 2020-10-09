@@ -1,41 +1,18 @@
-import * as cdk8s from 'cdk8s';
-import * as k8s from "./imports/k8s";
+import { Construct } from 'constructs';
+import { App, Chart } from 'cdk8s';
 
-// our cdk app
-const app = new cdk8s.App();
+// import { DestinationRuleAll } from './bookinfo/destination-rule';
+// import { DetailsService } from './bookinfo/details'
+export class Cdk8sChart extends Chart {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-// our kuberentes chart
-const chart = new cdk8s.Chart(app, 'cdk8s');
-
-const labels = { app: 'hello-kubernetes', tier: 'frontend' };
-
-new k8s.Deployment(chart, 'deployment', {
-  spec: {
-    selector: { matchLabels: labels },
-    replicas: 5,
-    template: {
-      metadata: { labels },
-      spec: {
-        containers: [
-          {
-            name: 'hello-kubernetes',
-            image: 'paulbouwer/hello-kubernetes:1.8',
-            ports: [{ containerPort: 8080 }]
-          }
-        ]
-      }
-    }
+    // new DestinationRuleAll(this, 'destination-rule-all')
+    // new DetailsService(this, 'details-service')
   }
-});
+}
 
-new k8s.Service(chart, 'service', {
-  metadata: { labels },
-  spec: {
-    type: 'LoadBalancer',
-    ports: [{ port: 80, targetPort: 8080 }],
-    selector: labels,
-  }
-});
 
-// we are done, synth
+const app = new App();
+new Cdk8sChart(app, 'cdk8s-chart');
 app.synth();

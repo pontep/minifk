@@ -1,58 +1,44 @@
 import { Construct } from 'constructs';
 import { App, Chart } from 'cdk8s';
-
-import { IstioOperator } from './imports/install.istio.io/istiooperator'
-import { Policy } from './imports/authentication.istio.io/policy'
-// import { Rule } from './imports/config.istio.io/rule'
-import { Gateway, GatewaySpecServersTlsMode } from './imports/networking.istio.io/gateway'
-// import { ServiceRole } from './imports/rbac.istio.io/servicerole'
-// import { AuthorizationPolicy } from './imports/security.istio.io/authorizationpolicy'
-export class HelloKube extends Chart {
+import { BookInfoGateWay } from './bookinfo/bookinfo-gateway';
+import { CustomDestinationRule } from './bookinfo/custom-destination-rule';
+import { BookInfo } from './bookinfo/bookinfo'
+// import { DetailsService } from './bookinfo/details'
+export class Cdk8sPlusChart extends Chart {
     constructor(scope: Construct, id: string) {
         super(scope, id);
 
-        new IstioOperator(this, 'istiooperator', {
-            spec: {
-                profile: 'demo'
-            }
+        new CustomDestinationRule(this, 'destination-rule', {})
+        new BookInfoGateWay(this, 'bookinfo-gateway')
+        new BookInfo(this, 'details', {
+            app: 'details',
+            deploymentName: 'details-v1',
+            image: 'docker.io/istio/examples-bookinfo-details-v1:1.15.1'
         })
-        // Gateway example: https://istio.io/v1.5/docs/concepts/traffic-management/#gateways
-        new Gateway(this, 'istio-gateway', {
-            spec: {
-                selector: {
-                    app: 'my-gateway-controller'
-                },
-                servers: [
-                    {
-                        port: {
-                            number: 443,
-                            name: 'https',
-                            protocol: 'HTTPS'
-                        },
-                        hosts: [
-                            'ext-host.example.com'
-                        ],
-                        tls: {
-                            mode: GatewaySpecServersTlsMode.SIMPLE,
-                            serverCertificate: '/tmp/tls.crt',
-                            privateKey: '/tmp/tls.key'
-                        }
-                    }
-                ]
-            }
+        new BookInfo(this, 'ratings', {
+            app: 'ratings',
+            deploymentName: 'ratings-v1',
+            image: 'docker.io/istio/examples-bookinfo-ratings-v1:1.15.1'
         })
-
-        new Policy(this, 'istio-policy', {
-            spec: {
-
-            }
+        new BookInfo(this, 'reviews', {
+            app: 'reviews',
+            image: '',
+            deploymentName: 'reviews-v1',
+            moreVersion: 3,
+            whatType: 'reviews'
         })
-
-
+        new BookInfo(this, 'productpage', {
+            app: 'productpage',
+            image: '',
+            deploymentName: 'productpage-v1',
+            moreVersion: 1,
+            whatType: 'productpage'
+        })
 
     }
 }
 
+
 const app = new App();
-new HelloKube(app, 'hello-k8s');
+new Cdk8sPlusChart(app, 'cdk8splus-chart');
 app.synth();

@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: details
+    service: details
+  name: details
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: details
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: details
+  name: bookinfo-details
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: details
+    version: v1
+  name: details-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartdetailsdetailsv169834C29
+  template:
+    metadata:
+      labels:
+        app: details
+        cdk8s.deployment: cdk8spluschartdetailsdetailsv169834C29
+        version: v1
+    spec:
+      containers:
+        - env: []
+          image: docker.io/istio/examples-bookinfo-details-v1:1.15.1
+          name: details
+          ports:
+            - containerPort: 9080
+          volumeMounts: []
+      serviceAccountName: bookinfo-details
+      volumes: []

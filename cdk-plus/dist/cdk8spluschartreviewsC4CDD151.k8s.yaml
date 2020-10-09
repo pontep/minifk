@@ -1,0 +1,138 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v1
+  name: reviews-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsreviewsv106C53748
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsreviewsv106C53748
+        version: v1
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v1:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v2
+  name: reviews-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsreviewsv27EDF46EB
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsreviewsv27EDF46EB
+        version: v2
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v2:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v3
+  name: reviews-v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsreviewsv3D1F29DC4
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsreviewsv3D1F29DC4
+        version: v3
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v3:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output

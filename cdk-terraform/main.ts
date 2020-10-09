@@ -1,53 +1,83 @@
+import { Construct } from 'constructs';
 import { App, TerraformStack } from 'cdktf';
-import { KubernetesProvider, Deployment, Service } from './.gen/providers/kubernetes';
+import { KubernetesProvider, Namespace, Deployment, Service } from './.gen/providers/kubernetes';
 
-const app = new App();
-const stack = new TerraformStack(app, 'cdk-terraform');
+class KubeStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-new KubernetesProvider(stack, 'kind', {});
+    new KubernetesProvider(this, 'kind', {});
 
-const labels = { cdk: 'terrform-cdk' };
-
-new Deployment(stack, 'deployment', {
-  metadata: [{
-    labels: labels,
-    name: 'cdk-terraform-deployment' // metadata.name: Required value: name or generateName is required
-  }],
-  spec: [{
-    replicas: 3,
-    selector: [{
-      matchLabels: labels
-    }],
-    template: [{
+    const exampleNamespace = new Namespace(this, 'tf-cdk-example', {
       metadata: [{
-        labels: labels
+        name: 'tf-cdk-example'
+      }]
+    })
+
+    const app = 'nginx-example'
+    new Deployment(this, 'nginx-deployment', {
+      metadata: [{
+        name: app,
+        namespace: exampleNamespace.metadata[0].name,
+        labels: {
+          app
+        }
       }],
       spec: [{
-        container: [{
-          image: 'paulbouwer/hello-kubernetes:1.8',
-          name: 'hello-kubernetes',
-          port: [{
-            containerPort: 8080
+        replicas: 2,
+        selector: [{
+          matchLabels: {
+            app
+          }
+        }],
+        template: [{
+          metadata: [{
+            labels: {
+              app
+            }
           }],
+          spec: [{
+            container: [{
+              image: 'nginx:1.7.8',
+              name: 'example',
+              port: [{
+                containerPort: 80
+              }],
+              resources: [{
+                limits: [{
+                  cpu: '0.5',
+                  memory: '512Mi'
+                }],
+                requests: [{
+                  cpu: '250m',
+                  memory: '50Mi'
+                }]
+              }]
+            }]
+          }]
         }]
       }]
-    }]
-  }]
-})
+    })
 
-new Service(stack, 'service', {
-  metadata: [{
-    labels,
-    name: 'cdk-terraform-service' // metadata.name: Required value: name or generateName is required
-  }],
-  spec: [{
-    selector: labels,
-    port: [{
-      port: 80,
-      targetPort: '8080'
-    }],
-    type: 'LoadBalancer'
-  }]
-})
+    new Service(this, 'nginx-service', {
+      metadata: [{
+        name: app
+      }],
+      spec: [{
+        selector: {
+          app
+        },
+        port: [{
+          nodePort: 30201,
+          port: 80,
+          targetPort: '80'
+        }],
+        type: 'NodePort'
+      }]
+    })
+  }
+}
 
+const app = new App();
+new KubeStack(app, 'tf-cdk-example');
 app.synth();

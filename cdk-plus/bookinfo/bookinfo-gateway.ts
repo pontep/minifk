@@ -6,7 +6,7 @@ export class BookInfoGateWay extends Construct {
 	constructor(scope: Construct, id: string) {
 		super(scope, id);
 
-		new Gateway(this, 'bookinfo-gateway', {
+		const gateway = new Gateway(this, 'bookinfo-gateway', {
 			spec: {
 				selector: {
 					istio: 'ingressgateway'
@@ -24,7 +24,7 @@ export class BookInfoGateWay extends Construct {
 					}
 				]
 			}
-		}).metadata.add('name', 'bookinfo-gateway')
+		})
 
 		new VirtualService(this, 'bookinfo', {
 			spec: {
@@ -32,7 +32,7 @@ export class BookInfoGateWay extends Construct {
 					'*'
 				],
 				gateways: [
-					'bookinfo-gateway'
+					gateway.name
 				],
 				http: [
 					{
@@ -78,6 +78,6 @@ export class BookInfoGateWay extends Construct {
 					}
 				]
 			}
-		}).metadata.add('name', 'bookinfo')
+		})
 	}
 }

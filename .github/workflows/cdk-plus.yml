@@ -6,38 +6,6 @@ on:
     branches: [ master ]
     
 jobs:
-#   cdk8s:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checks-out
-#       uses: actions/checkout@v2
-    
-#     - name: Setup Node.js environment
-#       uses: actions/setup-node@v1.4.3
-    
-#     - name: Installing node dependencies
-#       run: |
-#         cd cdk
-#         npm install
-    
-#     - name: Compiling
-#       run: |
-#         cd cdk
-#         npm run compile
-  
-#     - name: Synthing
-#       run: |
-#         cd cdk
-#         npm run synth
-    
-#     - name: Upload dist result for job cdk8s
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: cdk8s
-#         path: cdk/dist/cdk8s.k8s.yaml
-
-        
-      
   cdk8s-plus:
     runs-on: ubuntu-latest
     steps:
@@ -66,50 +34,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: cdk8s-plus
-        path: cdk-plus/dist/cdk8splus.k8s.yaml
-  
-#   cdk-terraform:
-#     runs-on: ubuntu-latest
-
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#     - name: Checks-out
-#       uses: actions/checkout@v2
-    
-#     - name: Setup Node.js environment
-#       uses: actions/setup-node@v1.4.3
-    
-#     - name: Installing node dependencies
-#       run: |
-#         cd cdk-terraform
-#         npm install && npm install -g cdktf-cli
-    
-#     - name: Geting providers
-#       run: |
-#         cd cdk-terraform
-#         cdktf get
-    
-#     - name: Compiling
-#       run: |
-#         cd cdk-terraform
-#         npm run compile
-    
-# #     - name: Testing
-# #       run: |
-# #         cd cdk
-# #         npm run test
-      
-#     - name: Synthing
-#       run: |
-#         cd cdk-terraform
-#         cdktf synth
-    
-# #     - name: Deploying
-# #       run: |
-# #         cd cdk-terraform
-# #         cdktf deploy --auto-approve
-            
+        path: cdk-plus/dist/cdk8spluschart.k8s.yaml
             
   commit:
     needs: [cdk8s-plus] 
@@ -117,11 +42,6 @@ jobs:
     steps:
       - name: Checks-out
         uses: actions/checkout@v2
-      
-#       - name: Download dist result for cdk8s
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: cdk8s 
       
       - name: Download dist result for cdk8s-plus
         uses: actions/download-artifact@v2

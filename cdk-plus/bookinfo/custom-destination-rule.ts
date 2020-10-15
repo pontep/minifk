@@ -1,5 +1,4 @@
 import { Construct } from 'constructs';
-import { Chart } from 'cdk8s';
 import { DestinationRule, DestinationRuleSpecTrafficPolicyTlsMode } from '../imports/networking.istio.io/destinationrule'
 
 export interface CustomOptions {
@@ -8,7 +7,7 @@ export interface CustomOptions {
 
 }
 
-export class CustomDestinationRule extends Chart {
+export class CustomDestinationRule extends Construct {
     constructor(scope: Construct, id: string, options: CustomOptions) {
         super(scope, id);
         var trafficPolicy

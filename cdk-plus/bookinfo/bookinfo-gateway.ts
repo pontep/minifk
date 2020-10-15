@@ -1,9 +1,8 @@
 import { Construct } from 'constructs';
-import { Chart } from 'cdk8s';
 import { Gateway } from '../imports/networking.istio.io/gateway'
 import { VirtualService } from '../imports/networking.istio.io/virtualservice'
 
-export class BookInfoGateWay extends Chart {
+export class BookInfoGateWay extends Construct {
 	constructor(scope: Construct, id: string) {
 		super(scope, id);
 

@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { App, Chart } from 'cdk8s';
 import { BookInfoGateWay } from './bookinfo/bookinfo-gateway';
 import { CustomDestinationRule } from './bookinfo/custom-destination-rule';
-import { BookInfo } from './bookinfo/bookinfo'
+import { BookInfo, BookInfoType } from './bookinfo/bookinfo'
 // import { DetailsService } from './bookinfo/details'
 export class Cdk8sPlusChart extends Chart {
     constructor(scope: Construct, id: string) {
@@ -10,29 +10,19 @@ export class Cdk8sPlusChart extends Chart {
 
         new CustomDestinationRule(this, 'destination-rule', {})
         new BookInfoGateWay(this, 'bookinfo-gateway')
+
+        // ส่งเลขเวอร์ชั่นให้ command -> รอบนี้จะ gen version 2,3, ..
         new BookInfo(this, 'details', {
-            app: 'details',
-            deploymentName: 'details-v1',
-            image: 'docker.io/istio/examples-bookinfo-details-v1:1.15.1'
+            type: BookInfoType.DETAILS
         })
         new BookInfo(this, 'ratings', {
-            app: 'ratings',
-            deploymentName: 'ratings-v1',
-            image: 'docker.io/istio/examples-bookinfo-ratings-v1:1.15.1'
+            type: BookInfoType.RATINGS
         })
         new BookInfo(this, 'reviews', {
-            app: 'reviews',
-            image: '',
-            deploymentName: 'reviews-v1',
-            moreVersion: 3,
-            whatType: 'reviews'
+            type: BookInfoType.REVIEWS
         })
         new BookInfo(this, 'productpage', {
-            app: 'productpage',
-            image: '',
-            deploymentName: 'productpage-v1',
-            moreVersion: 1,
-            whatType: 'productpage'
+            type: BookInfoType.PRODUCT_PAGE
         })
 
     }

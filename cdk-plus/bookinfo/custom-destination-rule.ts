@@ -18,7 +18,7 @@ export class CustomDestinationRule extends Construct {
                 }
             }
         } else {
-            trafficPolicy = {}
+            trafficPolicy = undefined
         }
         // Product page
         new DestinationRule(this, 'productpage', {

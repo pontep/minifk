@@ -1,11 +1,11 @@
-# name: cdk+3
-# on:
-#   push:
-#     branches: [ master ]
-#   pull_request:
-#     branches: [ master ]
+name: cdk-plus
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
     
-# jobs:
+jobs:
 #   cdk8s:
 #     runs-on: ubuntu-latest
 #     steps:
@@ -38,35 +38,35 @@
 
         
       
-#   cdk8s-plus:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checks-out
-#       uses: actions/checkout@v2
+  cdk8s-plus:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checks-out
+      uses: actions/checkout@v2
     
-#     - name: Setup Node.js environment
-#       uses: actions/setup-node@v1.4.3
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.3
     
-#     - name: Installing node dependencies
-#       run: |
-#         cd cdk-plus
-#         npm install
+    - name: Installing node dependencies
+      run: |
+        cd cdk-plus
+        npm install
     
-#     - name: Compiling
-#       run: |
-#         cd cdk-plus
-#         npm run compile
+    - name: Compiling
+      run: |
+        cd cdk-plus
+        npm run compile
       
-#     - name: Synthing
-#       run: |
-#         cd cdk-plus
-#         npm run synth
+    - name: Synthing
+      run: |
+        cd cdk-plus
+        npm run synth
     
-#     - name: Upload dist result for job cdk8s-plus
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: cdk8s-plus
-#         path: cdk-plus/dist/cdk8splus.k8s.yaml
+    - name: Upload dist result for job cdk8s-plus
+      uses: actions/upload-artifact@v2
+      with:
+        name: cdk8s-plus
+        path: cdk-plus/dist/cdk8splus.k8s.yaml
   
 #   cdk-terraform:
 #     runs-on: ubuntu-latest
@@ -111,30 +111,30 @@
 # #         cdktf deploy --auto-approve
             
             
-#   commit:
-#     needs: [cdk8s, cdk8s-plus, cdk-terraform] 
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checks-out
-#         uses: actions/checkout@v2
+  commit:
+    needs: [cdk8s-plus] 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks-out
+        uses: actions/checkout@v2
       
 #       - name: Download dist result for cdk8s
 #         uses: actions/download-artifact@v2
 #         with:
 #           name: cdk8s 
       
-#       - name: Download dist result for cdk8s-plus
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: cdk8s-plus
+      - name: Download dist result for cdk8s-plus
+        uses: actions/download-artifact@v2
+        with:
+          name: cdk8s-plus
       
-#       - name: Git Auto Commit
-#         uses: stefanzweifel/git-auto-commit-action@v4.4.0
-#         with:
-#           commit_message: cdk+3 Auto commit #Commit message
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.4.0
+        with:
+          commit_message: cdk-plus Auto commit #Commit message
   
-#    # - name: Create Pull Request
-#     #  if: ${{ success() }}
-#      # uses: peter-evans/create-pull-request@v3.1.0 
+   # - name: Create Pull Request
+    #  if: ${{ success() }}
+     # uses: peter-evans/create-pull-request@v3.1.0 
         
   

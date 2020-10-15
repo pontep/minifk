@@ -1,0 +1,443 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cdk8splus-chart-destination-rule-productpage-0c5dd4cd
+spec:
+  host: productpage
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cdk8splus-chart-destination-rule-reviews-15539156
+spec:
+  host: reviews
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+    - labels:
+        version: v2
+      name: v2
+    - labels:
+        version: v3
+      name: v3
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cdk8splus-chart-destination-rule-ratings-5ac57045
+spec:
+  host: ratings
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+    - labels:
+        version: v2
+      name: v2
+    - labels:
+        version: v2-mysql
+      name: v2-mysql
+    - labels:
+        version: v2-mysql-vm
+      name: v2-mysql-vm
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cdk8splus-chart-destination-rule-details-c3afb86e
+spec:
+  host: details
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+    - labels:
+        version: v2
+      name: v2
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: cdk8splus-chart-bookinfo-gateway-cd60aff0
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - "*"
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cdk8splus-chart-bookinfo-gateway-bookinfo-8cd6fbfd
+spec:
+  gateways:
+    - cdk8splus-chart-bookinfo-gateway-cd60aff0
+  hosts:
+    - "*"
+  http:
+    - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            prefix: /static
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+      route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: details
+    service: details
+  name: details
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: details
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: details
+  name: bookinfo-details
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: details
+    version: v1
+  name: details-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartdetailsdetailsv169834C29
+  template:
+    metadata:
+      labels:
+        app: details
+        cdk8s.deployment: cdk8spluschartdetailsdetailsv169834C29
+        version: v1
+    spec:
+      containers:
+        - env: []
+          image: docker.io/istio/examples-bookinfo-details-v1:1.15.1
+          name: details
+          ports:
+            - containerPort: 9080
+          volumeMounts: []
+      serviceAccountName: bookinfo-details
+      volumes: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ratings
+    service: ratings
+  name: ratings
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: ratings
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: ratings
+  name: bookinfo-ratings
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ratings
+    version: v1
+  name: ratings-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartratingsratingsv1D30BC3B2
+  template:
+    metadata:
+      labels:
+        app: ratings
+        cdk8s.deployment: cdk8spluschartratingsratingsv1D30BC3B2
+        version: v1
+    spec:
+      containers:
+        - env: []
+          image: docker.io/istio/examples-bookinfo-ratings-v1:1.15.1
+          name: ratings
+          ports:
+            - containerPort: 9080
+          volumeMounts: []
+      serviceAccountName: bookinfo-ratings
+      volumes: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v1
+  name: reviews-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsreviewsv106C53748
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsreviewsv106C53748
+        version: v1
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v1:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v2
+  name: reviews-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsv2D1C78EC5
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsv2D1C78EC5
+        version: v2
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v2:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reviews
+    version: v3
+  name: reviews-v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartreviewsv3AEEEF664
+  template:
+    metadata:
+      labels:
+        app: reviews
+        cdk8s.deployment: cdk8spluschartreviewsv3AEEEF664
+        version: v3
+    spec:
+      containers:
+        - env:
+            - name: LOG_DIR
+              value: /tmp/logs
+          image: docker.io/istio/examples-bookinfo-reviews-v3:1.15.1
+          name: reviews
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /opt/ibm/wlp/output
+              name: wlp-output
+      serviceAccountName: bookinfo-reviews
+      volumes:
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: wlp-output
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: productpage
+    service: productpage
+  name: productpage
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: productpage
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: productpage
+  name: bookinfo-productpage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: productpage
+    version: v1
+  name: productpage-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.deployment: cdk8spluschartproductpageproductpagev11EFE0429
+  template:
+    metadata:
+      labels:
+        app: productpage
+        cdk8s.deployment: cdk8spluschartproductpageproductpagev11EFE0429
+        version: v1
+    spec:
+      containers:
+        - env: []
+          image: docker.io/istio/examples-bookinfo-productpage-v1:1.15.1
+          name: productpage
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+      serviceAccountName: bookinfo-productpage
+      volumes:
+        - emptyDir: {}
+          name: tmp

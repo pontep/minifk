@@ -60,6 +60,7 @@ export class BookInfo extends Construct {
                 }
             },
             spec: {
+                type: kplus.ServiceType.LOAD_BALANCER,
                 ports: [
                     {
                         port: 9080,

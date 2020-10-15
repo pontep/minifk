@@ -269,6 +269,28 @@ spec:
         - emptyDir: {}
           name: wlp-output
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -280,12 +302,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.deployment: cdk8spluschartreviewsreviewsv27EDF46EB
+      cdk8s.deployment: cdk8spluschartreviewsv2D1C78EC5
   template:
     metadata:
       labels:
         app: reviews
-        cdk8s.deployment: cdk8spluschartreviewsreviewsv27EDF46EB
+        cdk8s.deployment: cdk8spluschartreviewsv2D1C78EC5
         version: v2
     spec:
       containers:
@@ -308,6 +330,28 @@ spec:
         - emptyDir: {}
           name: wlp-output
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: reviews
+    service: reviews
+  name: reviews
+spec:
+  externalIPs: []
+  ports:
+    - port: 9080
+  selector:
+    app: reviews
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    account: reviews
+  name: bookinfo-reviews
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -319,12 +363,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.deployment: cdk8spluschartreviewsreviewsv3D1F29DC4
+      cdk8s.deployment: cdk8spluschartreviewsv3AEEEF664
   template:
     metadata:
       labels:
         app: reviews
-        cdk8s.deployment: cdk8spluschartreviewsreviewsv3D1F29DC4
+        cdk8s.deployment: cdk8spluschartreviewsv3AEEEF664
         version: v3
     spec:
       containers:

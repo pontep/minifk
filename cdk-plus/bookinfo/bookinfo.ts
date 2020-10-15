@@ -1,24 +1,28 @@
 import { Construct } from 'constructs';
 import * as kplus from 'cdk8s-plus'
+
+export const enum BookInfoType {
+    DETAILS = "details",
+    RATINGS = "ratings",
+    REVIEWS = "reviews",
+    PRODUCT_PAGE = "productpage"
+}
 export interface BookInfoOptions {
     /**
     * String of Version to generate.
-    * Just enter the number in string type.
+    * Just enter the number in string type. 
     * Example if you enter '1' it will generate 'v1'
+    * @default "v1"
     */
     readonly version?: string
+
     /**
     * Type of bookinfo app.
     * Example BookInfoType.DETAILS = 'details'
     */
     readonly type: BookInfoType
 }
-export declare enum BookInfoType {
-    DETAILS = 'details',
-    RATINGS = 'ratings',
-    REVIEWS = 'reviews',
-    PRODUCT_PAGE = 'productpage'
-}
+
 export class BookInfo extends Construct {
 
     constructor(scope: Construct, id: string, options: BookInfoOptions) {
@@ -28,9 +32,14 @@ export class BookInfo extends Construct {
         const bookinfo = 'bookinfo'
         const http = "http"
         // Declare definability variable
-        const version = 'v' + options.version || 'v1'
+        var version
+        if (options.version == undefined) {
+            version = "v1"
+        } else {
+            version = 'v' + options.version
+        }
         const serviceAccountName = bookinfo + "-" + options.type //details
-        const image = 'docker.io/istio/examples-bookinfo-' + options.type + '-' + options.version + ':1.15.1'
+        const image = 'docker.io/istio/examples-bookinfo-' + options.type + '-' + version + ':1.15.1'
         // Creating Service
         const service = new kplus.Service(this, 'service', {
             metadata: {

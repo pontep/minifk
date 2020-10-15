@@ -24,7 +24,7 @@ export class BookInfoGateWay extends Construct {
 					}
 				]
 			}
-		})
+		}).metadata.add('name', 'bookinfo-gateway')
 
 		new VirtualService(this, 'bookinfo', {
 			spec: {
@@ -78,6 +78,6 @@ export class BookInfoGateWay extends Construct {
 					}
 				]
 			}
-		})
+		}).metadata.add('name', 'bookinfo')
 	}
 }

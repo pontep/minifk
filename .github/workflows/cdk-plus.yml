@@ -28,7 +28,7 @@ jobs:
     - name: Testing
       run: |
         cd cdk-plus
-        npm run test
+        npm run test -- -u
       
     - name: Synthing
       run: |

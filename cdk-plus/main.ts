@@ -3,7 +3,7 @@ import { App, Chart } from 'cdk8s';
 import { BookInfoGateWay } from './bookinfo/bookinfo-gateway';
 import { CustomDestinationRule } from './bookinfo/custom-destination-rule';
 import { BookInfo, BookInfoType } from './bookinfo/bookinfo'
-// import { DetailsService } from './bookinfo/details'
+
 export class Cdk8sPlusChart extends Chart {
     constructor(scope: Construct, id: string) {
         super(scope, id);
@@ -25,10 +25,10 @@ export class Cdk8sPlusChart extends Chart {
             type: BookInfoType.REVIEWS,
             version: "2"
         })
-        // new BookInfo(this, 'reviews-v3', {
-        //     type: BookInfoType.REVIEWS,
-        //     version: "3"
-        // })
+        new BookInfo(this, 'reviews-v3', {
+            type: BookInfoType.REVIEWS,
+            version: "3"
+        })
         new BookInfo(this, 'productpage', {
             type: BookInfoType.PRODUCT_PAGE
         })

@@ -25,10 +25,10 @@ export class Cdk8sPlusChart extends Chart {
             type: BookInfoType.REVIEWS,
             version: "2"
         })
-        new BookInfo(this, 'reviews-v3', {
-            type: BookInfoType.REVIEWS,
-            version: "3"
-        })
+        // new BookInfo(this, 'reviews-v3', {
+        //     type: BookInfoType.REVIEWS,
+        //     version: "3"
+        // })
         new BookInfo(this, 'productpage', {
             type: BookInfoType.PRODUCT_PAGE
         })

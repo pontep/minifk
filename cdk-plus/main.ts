@@ -37,6 +37,6 @@ export class Cdk8sPlusChart extends Chart {
 }
 
 
-const app = new App();
+export const app = new App();
 new Cdk8sPlusChart(app, 'cdk8splus-chart');
 app.synth();

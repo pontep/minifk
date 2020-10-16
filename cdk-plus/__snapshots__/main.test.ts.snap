@@ -1,3 +1,741 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Placeholder Empty 1`] = `Array []`;
+exports[`Test MatchSnapshot 1`] = `
+Array [
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "DestinationRule",
+    "metadata": Object {
+      "name": "cdk8splus-chart-destination-rule-productpage-0c5dd4cd",
+    },
+    "spec": Object {
+      "host": "productpage",
+      "subsets": Array [
+        Object {
+          "labels": Object {
+            "version": "v1",
+          },
+          "name": "v1",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "DestinationRule",
+    "metadata": Object {
+      "name": "cdk8splus-chart-destination-rule-reviews-15539156",
+    },
+    "spec": Object {
+      "host": "reviews",
+      "subsets": Array [
+        Object {
+          "labels": Object {
+            "version": "v1",
+          },
+          "name": "v1",
+        },
+        Object {
+          "labels": Object {
+            "version": "v2",
+          },
+          "name": "v2",
+        },
+        Object {
+          "labels": Object {
+            "version": "v3",
+          },
+          "name": "v3",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "DestinationRule",
+    "metadata": Object {
+      "name": "cdk8splus-chart-destination-rule-ratings-5ac57045",
+    },
+    "spec": Object {
+      "host": "ratings",
+      "subsets": Array [
+        Object {
+          "labels": Object {
+            "version": "v1",
+          },
+          "name": "v1",
+        },
+        Object {
+          "labels": Object {
+            "version": "v2",
+          },
+          "name": "v2",
+        },
+        Object {
+          "labels": Object {
+            "version": "v2-mysql",
+          },
+          "name": "v2-mysql",
+        },
+        Object {
+          "labels": Object {
+            "version": "v2-mysql-vm",
+          },
+          "name": "v2-mysql-vm",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "DestinationRule",
+    "metadata": Object {
+      "name": "cdk8splus-chart-destination-rule-details-c3afb86e",
+    },
+    "spec": Object {
+      "host": "details",
+      "subsets": Array [
+        Object {
+          "labels": Object {
+            "version": "v1",
+          },
+          "name": "v1",
+        },
+        Object {
+          "labels": Object {
+            "version": "v2",
+          },
+          "name": "v2",
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "Gateway",
+    "metadata": Object {
+      "name": "cdk8splus-chart-bookinfo-gateway-cd60aff0",
+    },
+    "spec": Object {
+      "selector": Object {
+        "istio": "ingressgateway",
+      },
+      "servers": Array [
+        Object {
+          "hosts": Array [
+            "*",
+          ],
+          "port": Object {
+            "name": "http",
+            "number": 80,
+            "protocol": "HTTP",
+          },
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "networking.istio.io/v1alpha3",
+    "kind": "VirtualService",
+    "metadata": Object {
+      "name": "cdk8splus-chart-bookinfo-gateway-bookinfo-8cd6fbfd",
+    },
+    "spec": Object {
+      "gateways": Array [
+        "cdk8splus-chart-bookinfo-gateway-cd60aff0",
+      ],
+      "hosts": Array [
+        "*",
+      ],
+      "http": Array [
+        Object {
+          "match": Array [
+            Object {
+              "uri": Object {
+                "exact": "/productpage",
+              },
+            },
+            Object {
+              "uri": Object {
+                "prefix": "/static",
+              },
+            },
+            Object {
+              "uri": Object {
+                "exact": "/login",
+              },
+            },
+            Object {
+              "uri": Object {
+                "exact": "/logout",
+              },
+            },
+            Object {
+              "uri": Object {
+                "prefix": "/api/v1/products",
+              },
+            },
+          ],
+          "route": Array [
+            Object {
+              "destination": Object {
+                "host": "productpage",
+                "port": Object {
+                  "number": 9080,
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "details",
+        "service": "details",
+      },
+      "name": "details",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "details",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "details",
+      },
+      "name": "bookinfo-details",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "details",
+        "version": "v1",
+      },
+      "name": "details-v1",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartdetailsdetailsv169834C29",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "details",
+            "cdk8s.deployment": "cdk8spluschartdetailsdetailsv169834C29",
+            "version": "v1",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [],
+              "image": "docker.io/istio/examples-bookinfo-details-v1:1.15.1",
+              "name": "details",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [],
+            },
+          ],
+          "serviceAccountName": "bookinfo-details",
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "ratings",
+        "service": "ratings",
+      },
+      "name": "ratings",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "ratings",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "ratings",
+      },
+      "name": "bookinfo-ratings",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "ratings",
+        "version": "v1",
+      },
+      "name": "ratings-v1",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartratingsratingsv1D30BC3B2",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "ratings",
+            "cdk8s.deployment": "cdk8spluschartratingsratingsv1D30BC3B2",
+            "version": "v1",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [],
+              "image": "docker.io/istio/examples-bookinfo-ratings-v1:1.15.1",
+              "name": "ratings",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [],
+            },
+          ],
+          "serviceAccountName": "bookinfo-ratings",
+          "volumes": Array [],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "service": "reviews",
+      },
+      "name": "reviews",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "reviews",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "reviews",
+      },
+      "name": "bookinfo-reviews",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "version": "v1",
+      },
+      "name": "reviews-v1",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartreviewsreviewsv106C53748",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "reviews",
+            "cdk8s.deployment": "cdk8spluschartreviewsreviewsv106C53748",
+            "version": "v1",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "LOG_DIR",
+                  "value": "/tmp/logs",
+                },
+              ],
+              "image": "docker.io/istio/examples-bookinfo-reviews-v1:1.15.1",
+              "name": "reviews",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/tmp",
+                  "name": "tmp",
+                },
+                Object {
+                  "mountPath": "/opt/ibm/wlp/output",
+                  "name": "wlp-output",
+                },
+              ],
+            },
+          ],
+          "serviceAccountName": "bookinfo-reviews",
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "tmp",
+            },
+            Object {
+              "emptyDir": Object {},
+              "name": "wlp-output",
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "service": "reviews",
+      },
+      "name": "reviews",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "reviews",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "reviews",
+      },
+      "name": "bookinfo-reviews",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "version": "v2",
+      },
+      "name": "reviews-v2",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartreviewsv2D1C78EC5",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "reviews",
+            "cdk8s.deployment": "cdk8spluschartreviewsv2D1C78EC5",
+            "version": "v2",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "LOG_DIR",
+                  "value": "/tmp/logs",
+                },
+              ],
+              "image": "docker.io/istio/examples-bookinfo-reviews-v2:1.15.1",
+              "name": "reviews",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/tmp",
+                  "name": "tmp",
+                },
+                Object {
+                  "mountPath": "/opt/ibm/wlp/output",
+                  "name": "wlp-output",
+                },
+              ],
+            },
+          ],
+          "serviceAccountName": "bookinfo-reviews",
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "tmp",
+            },
+            Object {
+              "emptyDir": Object {},
+              "name": "wlp-output",
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "service": "reviews",
+      },
+      "name": "reviews",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "reviews",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "reviews",
+      },
+      "name": "bookinfo-reviews",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "reviews",
+        "version": "v3",
+      },
+      "name": "reviews-v3",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartreviewsv3AEEEF664",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "reviews",
+            "cdk8s.deployment": "cdk8spluschartreviewsv3AEEEF664",
+            "version": "v3",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [
+                Object {
+                  "name": "LOG_DIR",
+                  "value": "/tmp/logs",
+                },
+              ],
+              "image": "docker.io/istio/examples-bookinfo-reviews-v3:1.15.1",
+              "name": "reviews",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/tmp",
+                  "name": "tmp",
+                },
+                Object {
+                  "mountPath": "/opt/ibm/wlp/output",
+                  "name": "wlp-output",
+                },
+              ],
+            },
+          ],
+          "serviceAccountName": "bookinfo-reviews",
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "tmp",
+            },
+            Object {
+              "emptyDir": Object {},
+              "name": "wlp-output",
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "productpage",
+        "service": "productpage",
+      },
+      "name": "productpage",
+    },
+    "spec": Object {
+      "externalIPs": Array [],
+      "ports": Array [
+        Object {
+          "port": 9080,
+        },
+      ],
+      "selector": Object {
+        "app": "productpage",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "ServiceAccount",
+    "metadata": Object {
+      "labels": Object {
+        "account": "productpage",
+      },
+      "name": "bookinfo-productpage",
+    },
+  },
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "productpage",
+        "version": "v1",
+      },
+      "name": "productpage-v1",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "cdk8s.deployment": "cdk8spluschartproductpageproductpagev11EFE0429",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "productpage",
+            "cdk8s.deployment": "cdk8spluschartproductpageproductpagev11EFE0429",
+            "version": "v1",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "env": Array [],
+              "image": "docker.io/istio/examples-bookinfo-productpage-v1:1.15.1",
+              "name": "productpage",
+              "ports": Array [
+                Object {
+                  "containerPort": 9080,
+                },
+              ],
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/tmp",
+                  "name": "tmp",
+                },
+              ],
+            },
+          ],
+          "serviceAccountName": "bookinfo-productpage",
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "tmp",
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
